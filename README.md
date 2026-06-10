@@ -1,70 +1,73 @@
-# Getting Started with Create React App
+# Loop v2 — Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Loop dashboard UI, rebuilt as a standalone single-page app. It renders the marketing-free, authenticated product (auth flows + dashboard) and talks to a separate Node backend over HTTP.
 
-## Available Scripts
+> AI customer communication platform — unify WhatsApp, Telegram, Instagram & more, with an AI agent that handles replies 24/7.
 
-In the project directory, you can run:
+## Stack
 
-### `npm start`
+- **Create React App** (react-scripts) · **React 19** · plain **JavaScript** (no TypeScript)
+- **antd v6** for UI, wrapped behind a local `My*` component kit
+- **react-router-dom v6** for routing
+- **Zustand** for state (`authStore`, `workspaceStore`)
+- A separate **Node backend** (not in this repo) serves `/api/**`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Getting started
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+npm install
+npm start
+```
 
-### `npm test`
+The app runs at http://localhost:3000.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Environment
 
-### `npm run build`
+CRA only exposes vars prefixed `REACT_APP_`. Configure the backend origin in `.env`:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+REACT_APP_API_BASE_URL=http://localhost:4000
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Because the app and the API are on different origins, the backend must send
+`Access-Control-Allow-Credentials: true` with a specific `Access-Control-Allow-Origin`,
+and auth cookies need `SameSite=None; Secure`. In dev you can instead leave
+`REACT_APP_API_BASE_URL` empty and add `"proxy": "http://localhost:4000"` to
+`package.json` to keep everything same-origin (simpler cookies).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Scripts
 
-### `npm run eject`
+- `npm start` — run the dev server (hot reload) at http://localhost:3000
+- `npm run build` — production build to `build/`
+- `npm test` — test runner (watch mode)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Project structure
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+src/
+  pages/<area>/<Page>.js         screens (a multi-state page becomes a folder)
+  layouts/<name>Layout/          OutsideLayout (auth), InsideLayout (dashboard shell)
+  components/my<thing>/My*.js     thin antd wrappers — pages compose these, not antd
+  stores/                         Zustand (authStore, workspaceStore)
+  actions/<domain>Actions.js      API calls (wrap utils/apiClient)
+  routes/                         Route.js, RequireAuth, PermissionGuard
+  hooks/  utils/  config/  styles/  assets/
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **Auth pages** (`OutsideLayout`): `/login`, `/get-started`, `/verify`, `/forgot-password`, `/invite/:token`.
+- **Dashboard** (`RequireAuth` → `InsideLayout`): `/dashboard` and its feature routes. The shell carries the nav, workspace switcher, notifications, presence, theme toggle, and a branded loader.
+- Pages are lazy-loaded; layouts handle the `Suspense` fallback.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## How data flows
 
-## Learn More
+`component / store` → **action** (`src/actions/<domain>Actions.js`, defines the endpoint) → **apiClient** (`src/utils/apiClient.js`, the only place `fetch` is called: base URL, cookies, JSON, `ApiError`) → backend.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Never call `apiClient`/`fetch` directly from a component, page, or store — always go through an action.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Theming
 
-### Code Splitting
+All colour and control sizing lives in `src/config/antdTheme.js` (brand primary `#5b00fd`, Garet font, 46px large controls, plus custom `auth*` / dashboard / loader tokens). Components read colours via `theme.useToken()` — no colour literals in pages or components. A light/dark toggle is wired via the `.dark` class on `<html>` (bootstrapped in `public/index.html` to avoid a flash).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Conventions
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Coding conventions for this project (wrap antd via `My*`, theme tokens only, actions layer, when to split multi-state pages, etc.) are documented in [`CLAUDE.md`](./CLAUDE.md). Read it before adding code.

@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'Garet';
+  src: url('../../fonts/Garet-Book.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Garet';
+  src: url('../../fonts/Garet-Heavy.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}

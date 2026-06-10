@@ -1,0 +1,9 @@
+@import './fonts.css';
+@import './utilities.css';
+
+body {
+  margin: 0;
+  font-family: 'Garet', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
