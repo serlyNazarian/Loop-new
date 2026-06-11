@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ForgotPasswordDone from './ForgotPasswordDone';
 import MyForm from '../../../components/myForm/MyForm';
-import ForgotPasswordCodeStep from './ForgotPasswordCodeStep';
+import ForgotPasswordOtpStep from './ForgotPasswordOtpStep';
 import ForgotPasswordEmailStep from './ForgotPasswordEmailStep';
+import ForgotPasswordPasswordStep from './ForgotPasswordPasswordStep';
 import { forgotPassword, resetPassword } from '../../../actions/authActions';
 
 const RESEND_COOLDOWN = 60;
@@ -34,14 +35,17 @@ const ForgotPassword = () => {
     setLoading(true);
     try {
       await forgotPassword(trimmed);
-      setEmail(trimmed);
-      setStep('code');
-      setCountdown(RESEND_COOLDOWN);
     } catch (err) {
-      setError(err.message || 'Failed to send code');
-    } finally {
-      setLoading(false);
+      if (err.status === 0) {
+        setError(err.message || 'Failed to send code');
+        setLoading(false);
+        return;
+      }
     }
+    setEmail(trimmed);
+    setStep('otp');
+    setCountdown(RESEND_COOLDOWN);
+    setLoading(false);
   };
 
   const resend = async () => {
@@ -50,27 +54,30 @@ const ForgotPassword = () => {
     setInfo(null);
     try {
       await forgotPassword(email);
-      setInfo('Code resent. Check your email.');
-      setCountdown(RESEND_COOLDOWN);
-      setCode('');
     } catch (err) {
-      setError(err.message || 'Failed to resend code');
+      if (err.status === 0) {
+        setError(err.message || 'Failed to resend code');
+        return;
+      }
     }
+    setInfo('Code resent! Check your email.');
+    setCountdown(RESEND_COOLDOWN);
+    setCode('');
+  };
+
+  const goToPassword = () => {
+    setError(null);
+    setStep('password');
   };
 
   const reset = async ({ password }) => {
     setError(null);
-    if (code.length !== 6) {
-      setError('Enter the 6-digit code');
-      return;
-    }
     setLoading(true);
     try {
       await resetPassword({ email, code, password });
       setDone(true);
     } catch (err) {
       setError(err.message || 'Failed to reset password');
-      setCode('');
     } finally {
       setLoading(false);
     }
@@ -81,28 +88,34 @@ const ForgotPassword = () => {
   }
 
   if (step === 'email') {
+    return <ForgotPasswordEmailStep form={emailForm} onFinish={sendCode} loading={loading} error={error} />;
+  }
+
+  if (step === 'otp') {
     return (
-      <ForgotPasswordEmailStep
+      <ForgotPasswordOtpStep
+        email={email}
+        code={code}
+        setCode={setCode}
+        onContinue={goToPassword}
+        onResend={resend}
+        countdown={countdown}
+        info={info}
         error={error}
-        form={emailForm}
-        loading={loading}
-        onFinish={sendCode}
       />
     );
   }
 
   return (
-    <ForgotPasswordCodeStep
-      code={code}
-      info={info}
-      email={email}
-      error={error}
+    <ForgotPasswordPasswordStep
       form={resetForm}
       onFinish={reset}
-      setCode={setCode}
       loading={loading}
-      onResend={resend}
-      countdown={countdown}
+      error={error}
+      onBack={() => {
+        setError(null);
+        setStep('otp');
+      }}
     />
   );
 };

@@ -31,7 +31,7 @@ const OutsideLayout = () => {
             </div>
           )}
           <MyFlexCenter style={rightPanel}>
-            <div style={{ width: '100%', maxWidth: 448 }}>
+            <div style={{ width: '100%', maxWidth: 400 }}>
               <Suspense fallback={null}>
                 <Outlet />
               </Suspense>

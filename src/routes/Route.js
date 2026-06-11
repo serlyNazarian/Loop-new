@@ -6,9 +6,9 @@ import InsideLayout from '../layouts/insideLayout/InsideLayout';
 import OutsideLayout from '../layouts/outsideLayout/OutsideLayout';
 
 const Login = lazy(() => import('../pages/auth/login/Login'));
-const GetStarted = lazy(() => import('../pages/auth/GetStarted'));
-const Verify = lazy(() => import('../pages/auth/Verify'));
-const Invite = lazy(() => import('../pages/auth/Invite'));
+const Register = lazy(() => import('../pages/auth/register/Register'));
+const Verify = lazy(() => import('../pages/auth/verify/Verify'));
+const Invite = lazy(() => import('../pages/auth/invite/Invite'));
 const ForgotPassword = lazy(
   () => import('../pages/auth/forgotPassword/ForgotPassword')
 );
@@ -21,7 +21,7 @@ const AppRoutes = () => {
       {/* ── Public / auth ─────────────────────────────────────────── */}
       <Route element={<OutsideLayout />}>
         <Route path="login" element={<Login />} />
-        <Route path="get-started" element={<GetStarted />} />
+        <Route path="register" element={<Register />} />
         <Route path="verify" element={<Verify />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="invite/:token" element={<Invite />} />

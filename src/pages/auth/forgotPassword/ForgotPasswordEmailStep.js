@@ -6,17 +6,18 @@ import MyButton from '../../../components/myButton/MyButton';
 import MyInputItem from '../../../components/myInput/MyInputItem';
 import MyFlexCenter from '../../../components/myFlex/MyFlexCenter';
 import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
+import MyTextGradient from '../../../components/myText/MyTextGradient';
 import MyTextSecondary from '../../../components/myText/MyTextSecondary';
 import MyCardTransparent from '../../../components/myCard/MyCardTransparent';
 
-const ForgotPasswordEmailStep = ({ form, onFinish, loading, error }) => {
+const ForgotPasswordEmailStep = ({ form, loading, error, onFinish }) => {
   const { token } = theme.useToken();
 
   return (
     <MyCardTransparent styles={{ body: { padding: 0 } }}>
       <MyFlexVertical gap={24}>
         <MyFlexVertical gap={4}>
-          <MyText fontSize={34}>Forgot password?</MyText>
+          <MyTextGradient>Forgot password?</MyTextGradient>
           <MyTextSecondary fontSize={16}>
             Enter your email and we'll send you a 6-digit reset code.
           </MyTextSecondary>

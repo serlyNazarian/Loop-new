@@ -50,6 +50,7 @@ const antdTheme = {
     authPanelOverlaySize: 'auto, auto, auto, 32px 32px',
     authOnDark: '#ffffff',
     authDotInactive: 'rgba(255,255,255,0.4)',
+    authTitleGradient: 'linear-gradient(135deg, #0a0a0a 0%, #1f2937 50%, #0066ff 100%)',
 
     dashboardBgBase: '#f4f4f7',
     dashboardBgBaseDark: '#0a0a0c',

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { theme } from 'antd';
+import { useEffect, useState } from 'react';
 import loopWhite from '../../assets/loop-white.svg';
 import MyLink from '../../components/myLink/MyLink';
 import MyText from '../../components/myText/MyText';

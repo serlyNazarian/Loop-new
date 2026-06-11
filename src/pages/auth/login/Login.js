@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import useAuthStore from '../../../stores/authStore';
+import LoginHeaderSection from './LoginHeaderSection';
 import SocialLoginButtons from './SocialLoginButtons';
 import MyForm from '../../../components/myForm/MyForm';
-import MyText from '../../../components/myText/MyText';
 import MyFlex from '../../../components/myFlex/MyFlex';
 import MyLink from '../../../components/myLink/MyLink';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -12,7 +12,6 @@ import MyDivider from '../../../components/myDivider/MyDivider';
 import MyInputItem from '../../../components/myInput/MyInputItem';
 import MyCheckbox from '../../../components/myCheckbox/MyCheckbox';
 import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
-import MyTextSecondary from '../../../components/myText/MyTextSecondary';
 import MyCardTransparent from '../../../components/myCard/MyCardTransparent';
 import MyInputPasswordItem from '../../../components/myInput/MyInputPasswordItem';
 
@@ -59,17 +58,7 @@ const Login = () => {
   return (
     <MyCardTransparent styles={{ body: { padding: 0 } }}>
       <MyFlexVertical gap={20}>
-        <MyFlexVertical gap={4}>
-          <MyText fontSize={34}>Welcome back</MyText>
-          <MyFlex gap={5}>
-            <MyTextSecondary fontSize={16}>
-              Don't have an account?
-            </MyTextSecondary>
-            <MyLink underline to="/get-started" fontSize={16}>
-              Sign up
-            </MyLink>
-          </MyFlex>
-        </MyFlexVertical>
+        <LoginHeaderSection />
         <MyForm
           form={form}
           layout="vertical"

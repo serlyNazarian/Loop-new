@@ -474,7 +474,6 @@ export default function InsideLayout() {
               value={activeId}
               onChange={setActive}
               variant="filled"
-              style={{ width: '100%' }}
               options={workspaces.map((w) => ({ value: w.id, label: w.name }))}
             />
           </MyFlex>

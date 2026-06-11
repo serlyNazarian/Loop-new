@@ -15,6 +15,8 @@ Create React App · React 19 · plain JavaScript (no TypeScript) · antd v6 · r
 
 4. **No code comments.** Write self-explanatory code with clear names. Do not add `//` or `/* */` comments.
 
+5. **No monolithic files.** Keep each file small and focused on one job. When a page or component grows large or does several things, break it into focused pieces: extract sub-sections/step components, pull static data (option lists, enums) into their own file, and move reusable logic into `utils/` or an `actions/` module. A component file should read top-to-bottom in one screen or two — if you're scrolling to understand it, split it. See the **Page pattern** below for the multi-step/multi-state split rule, and `pages/auth/register/` as a reference decomposition (orchestrator + section/step components + co-located constants + shared `utils/password.js`).
+
 ## Colors and sizing
 
 - **No inline colors anywhere.** Every color comes from the antd theme. Read brand colors with `theme.useToken()` and apply `token.colorPrimary`, `token.colorText`, the custom `token.auth*` values, etc. Add new brand colors to `src/config/antdTheme.js` (token or custom token) — never hardcode a hex / rgb in a component or page.
@@ -81,7 +83,9 @@ src/
 
 `'use client'` does not exist here — never add it. Fetch in an effect via an action (see **Network** above), hold in local state or a store, render with `My*` components, and handle loading / error / empty states explicitly (`Spin`, `MyEmpty`). Compose layout with `MyFlex` gaps. Match `src/pages/dashboard/Dashboard.js` as the reference.
 
-**Multi-step / multi-state pages — split only when it earns its keep.** Split a page into a folder `src/pages/<area>/<page>/` when it has **3+ screen states** (wizard steps, `done`/success, empty/error, etc.) **or any single step is large**. A page with **1–2 simple states stays inline** as one file (`src/pages/<area>/<Page>.js`) — splitting it just adds prop-threading and file-hopping for no gain. When you do split: the orchestrator `<Page>.js` owns all state + handlers and only decides which sub-component to render; each step/state is its own presentational component that contains its own card/markup and receives state + handlers via props (logic stays in the orchestrator). Reference: `pages/auth/forgotPassword/` (split, 3 states) vs `pages/auth/Verify.js` (inline, 2 states).
+**Multi-step / multi-state pages — decompose into a folder.** When a page has more than one screen state (wizard steps, a `done`/success screen, an empty / error / `no-data` state, etc.), put it in a folder `src/pages/<area>/<page>/`. The orchestrator `<Page>.js` owns the state, effects, and action calls, and only decides which state/section to render. Each distinct screen-state branch — every early-return like `if (!email) return <VerifyNoEmail/>` — is its own presentational component that contains its own card + markup. Extract reusable sections the same way (e.g. the page header as `<Page>HeaderSection`).
+
+**Props vs self-contained, and when to stop.** Pass orchestrator-owned data/handlers down as props, but when a state's behaviour is fully self-contained (e.g. a single `navigate('/login')`), let that component use the hook directly instead of threading a callback prop — keep prop interfaces narrow. Only keep a piece inline in the orchestrator when extracting it would create a wide prop list (many values threaded just to render) with no clean boundary; the goal is small, focused files without prop-threading churn. Reference: `pages/auth/register/` (orchestrator + header/steps sections + step components + constants), `pages/auth/forgotPassword/` (3 states), `pages/auth/verify/` (orchestrator + `VerifyHeaderSection` + self-contained `VerifyNoEmail`, primary state inline).
 
 ## Responsiveness
 
