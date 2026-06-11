@@ -1,0 +1,26 @@
+@keyframes home-orb-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes home-orb-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes home-orb-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  96% { transform: scaleY(0.08); }
+}
+
+.home-orb-float { animation: home-orb-float 5s ease-in-out infinite; }
+.home-orb-rotate { animation: home-orb-rotate 14s linear infinite; }
+.home-orb-blink-eye { animation: home-orb-blink 5s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .home-orb-float,
+  .home-orb-rotate,
+  .home-orb-blink-eye {
+    animation: none;
+  }
+}

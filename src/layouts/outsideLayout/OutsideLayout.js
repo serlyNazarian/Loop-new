@@ -4,39 +4,47 @@ import { Outlet } from 'react-router-dom';
 import MyFlex from '../../components/myFlex/MyFlex';
 import useWindowSize from '../../hooks/useWindowSize';
 import OutsideLayoutLeftRender from './OutsideLayoutLeftRender';
-import MyFlexCenter from '../../components/myFlex/MyFlexCenter';
 
 const { Content } = Layout;
 
 const OutsideLayout = () => {
-  const { isSmallScreen, isMobile } = useWindowSize();
   const { token } = theme.useToken();
+  const { isSmallScreen, isMobile } = useWindowSize();
 
   const rightPanel = {
     flex: 1,
-    minHeight: '100vh',
+    display: 'flex',
+    overflowY: 'auto',
+    flexDirection: 'column',
+    padding: isMobile ? 20 : 32,
     backgroundColor: token.authPanelBg,
     backgroundImage: token.authPanelOverlay,
     backgroundSize: token.authPanelOverlaySize,
-    padding: isMobile ? 20 : 32,
+  };
+
+  const leftPanel = {
+    flex: '0 0 50%',
+    maxWidth: '50%',
+    display: 'flex',
+    height: '100%',
   };
 
   return (
-    <Layout>
-      <Content>
-        <MyFlex gap={0} style={{ width: '100%' }}>
+    <Layout style={{ height: '100vh' }}>
+      <Content style={{ height: '100vh', overflow: 'hidden' }}>
+        <MyFlex gap={0} style={{ width: '100%', height: '100%' }}>
           {!isSmallScreen && (
-            <div style={{ flex: '0 0 50%', maxWidth: '50%', display: 'flex', minHeight: '100vh' }}>
+            <div style={leftPanel}>
               <OutsideLayoutLeftRender />
             </div>
           )}
-          <MyFlexCenter style={rightPanel}>
-            <div style={{ width: '100%', maxWidth: 400 }}>
+          <div style={rightPanel}>
+            <div style={{ width: '100%', maxWidth: 400, margin: 'auto' }}>
               <Suspense fallback={null}>
                 <Outlet />
               </Suspense>
             </div>
-          </MyFlexCenter>
+          </div>
         </MyFlex>
       </Content>
     </Layout>

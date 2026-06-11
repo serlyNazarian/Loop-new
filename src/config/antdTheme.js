@@ -78,6 +78,26 @@ const antdTheme = {
     loaderFsBgDark: '#0d0d0d',
     loaderBlobTL: 'radial-gradient(circle, #5b00fd 0%, transparent 65%)',
     loaderBlobBR: 'radial-gradient(circle, #0066ff 0%, transparent 65%)',
+
+    brandGradient: 'linear-gradient(135deg, #0066ff 0%, #5b00fd 100%)',
+    brandButtonShadow: '0 8px 24px rgba(91,0,253,0.25), 0 2px 6px rgba(0,102,255,0.15)',
+
+    orbHalo: 'radial-gradient(circle, rgba(91,0,253,0.50) 0%, rgba(0,102,255,0.30) 40%, transparent 70%)',
+    orbSheen:
+      'conic-gradient(from 180deg at 50% 50%, rgba(255,106,213,0.40), rgba(0,102,255,0.45), rgba(91,0,253,0.55), rgba(255,255,255,0.35), rgba(255,106,213,0.40))',
+    orbBodyShadow: 'inset 0 -10px 24px rgba(0,0,40,0.30), inset 0 10px 20px rgba(255,255,255,0.35)',
+
+    homeBgBase: '#f3f1ff',
+    homeAurora: [
+      'radial-gradient(at 12% 18%, rgba(91,0,253,0.22) 0%, transparent 42%)',
+      'radial-gradient(at 88% 12%, rgba(0,102,255,0.20) 0%, transparent 45%)',
+      'radial-gradient(at 72% 78%, rgba(255,106,213,0.16) 0%, transparent 48%)',
+      'radial-gradient(at 22% 88%, rgba(91,0,253,0.18) 0%, transparent 42%)',
+      'radial-gradient(at 50% 50%, rgba(180,160,255,0.10) 0%, transparent 55%)',
+    ].join(', '),
+    homeDot: 'radial-gradient(circle, rgba(91,0,253,0.08) 1px, transparent 1.5px)',
+    homeVignette: 'radial-gradient(ellipse 130% 90% at 50% 50%, transparent 45%, rgba(40,10,80,0.10) 100%)',
+    homeTopFade: 'linear-gradient(to bottom, rgba(243,241,255,0.6) 0%, transparent 100%)',
   },
   components: {
     Button: {

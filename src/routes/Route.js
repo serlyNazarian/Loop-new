@@ -1,6 +1,7 @@
-import { lazy } from 'react';
-import { Result } from 'antd';
+import { lazy, Suspense } from 'react';
 import RequireAuth from './RequireAuth';
+import MyResult from '../components/myResult/MyResult';
+import MyLoader from '../components/myLoader/MyLoader';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import InsideLayout from '../layouts/insideLayout/InsideLayout';
 import OutsideLayout from '../layouts/outsideLayout/OutsideLayout';
@@ -9,6 +10,7 @@ const Login = lazy(() => import('../pages/auth/login/Login'));
 const Register = lazy(() => import('../pages/auth/register/Register'));
 const Verify = lazy(() => import('../pages/auth/verify/Verify'));
 const Invite = lazy(() => import('../pages/auth/invite/Invite'));
+const Home = lazy(() => import('../pages/home/Home'));
 const ForgotPassword = lazy(
   () => import('../pages/auth/forgotPassword/ForgotPassword')
 );
@@ -44,11 +46,19 @@ const AppRoutes = () => {
       </Route>
 
       {/* ── Redirects + catch-all ─────────────────────────────────── */}
+      <Route
+        path="home"
+        element={
+          <Suspense fallback={<MyLoader fullScreen />}>
+            <Home />
+          </Suspense>
+        }
+      />
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route
         path="*"
         element={
-          <Result
+          <MyResult
             status="404"
             title="Page not found"
             subTitle="The page you're looking for doesn't exist."
