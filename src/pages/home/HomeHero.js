@@ -41,8 +41,8 @@ const HomeHero = () => {
       <MyFlex gap={12} wrap="wrap" justify="center">
         <MyButton
           size="large"
-          onClick={() => navigate('/register')}
           style={{ borderRadius: 999 }}
+          onClick={() => navigate('/register')}
         >
           Talk to Sales
         </MyButton>

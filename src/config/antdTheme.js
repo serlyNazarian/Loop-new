@@ -1,3 +1,5 @@
+import { theme as antdAlgorithms } from 'antd';
+
 const BRAND_PURPLE = 'rgb(91, 0, 253)';
 const BRAND_PURPLE_HOVER = 'rgb(120, 60, 255)';
 const DOT_MASK = 'radial-gradient(ellipse 100% 80% at 50% 50%, black 40%, transparent 100%)';
@@ -15,10 +17,9 @@ const antdTheme = {
     fontFamily: "'Garet', sans-serif",
     fontSize: 14,
     borderRadius: 8,
+    radiusRow: 10,
+    radiusItem: 12,
     controlHeightLG: 46,
-
-    colorBgContainer: '#ffffff',
-    colorBgLayout: '#f3f1ff',
 
     colorBrandBlue: '#0066ff',
     colorBrandPink: '#ff6ad5',
@@ -70,6 +71,24 @@ const antdTheme = {
     dashboardVignetteLight: 'radial-gradient(ellipse 130% 90% at 50% 50%, transparent 45%, rgba(40,10,80,0.10) 100%)',
     dashboardVignetteDark: 'radial-gradient(ellipse 130% 90% at 50% 50%, transparent 45%, rgba(0,0,0,0.45) 100%)',
 
+    sidebarGlass: 'rgba(255,255,255,0.55)',
+    sidebarGlassDark: 'rgba(10,10,12,0.40)',
+    sidebarBorder: 'rgba(0,0,0,0.04)',
+    sidebarBorderDark: 'rgba(255,255,255,0.04)',
+    headerGlass: 'rgba(255,255,255,0.55)',
+    headerGlassDark: 'rgba(10,10,12,0.45)',
+    navActiveBg: 'rgba(91,0,253,0.09)',
+    navActiveDotShadow: '0 0 0 3px rgba(91,0,253,0.18)',
+    navFeaturedGradient: 'linear-gradient(135deg, #5b00fd 0%, #8b5cf6 55%, #a78bfa 100%)',
+    navFeaturedShadow: '0 4px 14px -4px rgba(91,0,253,0.35)',
+    navFeaturedShadowHover: '0 8px 22px -6px rgba(91,0,253,0.55)',
+    wsAvatarGradient: 'linear-gradient(135deg, #7c3aff 0%, #5b00fd 100%)',
+    wsAvatarShadow: '0 4px 12px rgba(91,0,253,0.30)',
+    notifAssignGradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+    notifMentionGradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+    notifCancelGradient: 'linear-gradient(135deg, #f43f5e 0%, #be123c 100%)',
+    notifChatGradient: 'linear-gradient(135deg, #0066ff 0%, #5b00fd 100%)',
+
     loaderHalo: 'radial-gradient(circle, rgba(91,0,253,0.40) 0%, rgba(0,102,255,0.20) 50%, transparent 75%)',
     loaderBar: 'linear-gradient(90deg, #0066ff 0%, #5b00fd 100%)',
     loaderTrack: 'rgba(0,0,0,0.12)',
@@ -115,7 +134,6 @@ const antdTheme = {
     },
     Card: {
       borderRadius: 12,
-      colorBgContainer: '#ffffff',
     },
     Form: {
       itemMarginBottom: 0,
@@ -123,4 +141,17 @@ const antdTheme = {
   },
 };
 
-export default antdTheme;
+const LIGHT_SURFACES = {
+  colorBgContainer: '#ffffff',
+  colorBgLayout: '#f3f1ff',
+};
+
+export const buildTheme = (dark) => ({
+  ...antdTheme,
+  algorithm: dark
+    ? antdAlgorithms.darkAlgorithm
+    : antdAlgorithms.defaultAlgorithm,
+  token: { ...antdTheme.token, ...(dark ? {} : LIGHT_SURFACES) },
+});
+
+export default buildTheme;

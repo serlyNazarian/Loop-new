@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import RequireAuth from './RequireAuth';
+import Dashboard from '../pages/dashboard/Dashboard';
 import MyResult from '../components/myResult/MyResult';
 import MyLoader from '../components/myLoader/MyLoader';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -14,8 +15,6 @@ const Home = lazy(() => import('../pages/home/Home'));
 const ForgotPassword = lazy(
   () => import('../pages/auth/forgotPassword/ForgotPassword')
 );
-
-const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'));
 
 const AppRoutes = () => {
   return (

@@ -1,0 +1,25 @@
+.sidebar_scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
+}
+
+.sidebar_scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar_scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar_scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 99px;
+  transition: background 200ms;
+}
+.sidebar_scroll:hover::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.1);
+}
+.dark .sidebar_scroll:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}

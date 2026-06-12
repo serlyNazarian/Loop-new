@@ -13,7 +13,9 @@ const MyLink = ({
   ...otherProps
 }) => {
   const { token } = theme.useToken();
+
   const target = to ?? path ?? '';
+
   const location =
     typeof target === 'string'
       ? { pathname: target, search, state }

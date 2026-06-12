@@ -1,8 +1,13 @@
 import { Popover } from 'antd';
 
-const MyPopover = ({ trigger = 'click', children, ...otherProps }) => {
+const MyPopover = ({
+  children,
+  arrow = false,
+  trigger = 'click',
+  ...otherProps
+}) => {
   return (
-    <Popover trigger={trigger} {...otherProps}>
+    <Popover trigger={trigger} arrow={arrow} {...otherProps}>
       {children}
     </Popover>
   );

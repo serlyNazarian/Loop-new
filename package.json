@@ -30,6 +30,11 @@
       "react-app/jest"
     ]
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^@rc-component/picker/(generate|locale|interface)(.*)$": "<rootDir>/node_modules/@rc-component/picker/lib/$1$2"
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",

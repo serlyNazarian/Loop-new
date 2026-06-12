@@ -6,11 +6,11 @@ import {
   CheckCircleOutlined,
 } from '@ant-design/icons';
 import api from '../../utils/apiClient';
+import { Row, Col, Spin, Alert } from 'antd';
 import useAuthStore from '../../stores/authStore';
-import MyCard from '../../components/myCard/MyCard';
-import { Row, Col, Statistic, Spin, Alert } from 'antd';
 import MyFlexCenter from '../../components/myFlex/MyFlexCenter';
 import MyPageHeader from '../../components/myPageHeader/MyPageHeader';
+import MyCardStatistic from '../../components/myCardStatistic/MyCardStatistic';
 
 const Dashboard = () => {
   const user = useAuthStore((s) => s.user);
@@ -66,41 +66,38 @@ const Dashboard = () => {
   ];
 
   return (
-    <div>
+    <>
       <MyPageHeader
         title={`Welcome back, ${firstName}`}
         subtitle="Here's what's happening across your channels."
       />
-
       {error && (
         <Alert
-          type="error"
           showIcon
+          type="error"
           message={error}
           style={{ marginBottom: 16 }}
         />
       )}
-
       {loading ? (
-        <MyFlexCenter style={{ minHeight: '40vh' }}>
+        <MyFlexCenter style={{ minHeight: '15vh' }}>
           <Spin size="large" />
         </MyFlexCenter>
       ) : (
         <Row gutter={[16, 16]}>
-          {stats.map((s) => (
+          {stats?.map((s) => (
             <Col xs={24} sm={12} lg={6} key={s.key}>
-              <MyCard variant="outlined">
-                <Statistic
-                  title={s.label}
-                  value={s.value ?? 0}
-                  prefix={s.icon}
-                />
-              </MyCard>
+              <MyCardStatistic
+                title={s.label}
+                prefix={s.icon}
+                value={s.value ?? 0}
+                cardProps={{ variant: 'outlined' }}
+              />
             </Col>
           ))}
         </Row>
       )}
-    </div>
+    </>
   );
 };
 

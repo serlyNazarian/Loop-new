@@ -4,9 +4,11 @@ import './Home.css';
 
 const HomeAiOrb = ({ size = 160 }) => {
   const { token } = theme.useToken();
+
   const orbRef = useRef(null);
-  const [pupil, setPupil] = useState({ x: 0, y: 0 });
+
   const [squint, setSquint] = useState(0);
+  const [pupil, setPupil] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     let raf = 0;
@@ -26,7 +28,10 @@ const HomeAiOrb = ({ size = 160 }) => {
       const maxOffset = 9;
       const norm = Math.min(dist / 140, 1);
       const ang = Math.atan2(dy, dx);
-      target = { x: Math.cos(ang) * maxOffset * norm, y: Math.sin(ang) * maxOffset * norm };
+      target = {
+        x: Math.cos(ang) * maxOffset * norm,
+        y: Math.sin(ang) * maxOffset * norm,
+      };
       targetSquint = Math.max(0, Math.min(1, 1 - dist / 220));
     };
 
@@ -81,7 +86,13 @@ const HomeAiOrb = ({ size = 160 }) => {
         >
           <div
             className="home-orb-rotate"
-            style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: token.orbSheen, mixBlendMode: 'overlay' }}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+              background: token.orbSheen,
+              mixBlendMode: 'overlay',
+            }}
           />
           <div
             style={{
@@ -96,9 +107,24 @@ const HomeAiOrb = ({ size = 160 }) => {
               pointerEvents: 'none',
             }}
           />
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: size * 0.26 }}>
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: size * 0.26,
+            }}
+          >
             {[0, 1].map((i) => (
-              <div key={i} style={{ transform: `translate(${pupil.x}px, ${pupil.y}px)`, willChange: 'transform' }}>
+              <div
+                key={i}
+                style={{
+                  transform: `translate(${pupil.x}px, ${pupil.y}px)`,
+                  willChange: 'transform',
+                }}
+              >
                 <div
                   style={{
                     transform: `scaleY(${1 - squint * 0.6}) translateY(${squint * 2}px)`,
@@ -112,8 +138,10 @@ const HomeAiOrb = ({ size = 160 }) => {
                       width: size * 0.05,
                       height: size * 0.18,
                       borderRadius: 999,
-                      background: 'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.92) 100%)',
-                      boxShadow: '0 1px 3px rgba(0,0,30,0.18), inset 0 1px 1px rgba(255,255,255,0.9)',
+                      background:
+                        'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.92) 100%)',
+                      boxShadow:
+                        '0 1px 3px rgba(0,0,30,0.18), inset 0 1px 1px rgba(255,255,255,0.9)',
                     }}
                   />
                 </div>

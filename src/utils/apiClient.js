@@ -13,6 +13,8 @@
  * REACT_APP_API_BASE_URL empty to keep everything same-origin.
  */
 
+import { USE_MOCKS, getMockHandler } from '../mocks/mockApi';
+
 const BASE = process.env.REACT_APP_API_BASE_URL || '';
 
 export class ApiError extends Error {
@@ -25,6 +27,14 @@ export class ApiError extends Error {
 }
 
 async function request(path, { method = 'GET', body, headers, signal, ...rest } = {}) {
+  if (USE_MOCKS) {
+    const handler = getMockHandler(method, path);
+    if (handler) {
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      return handler(body);
+    }
+  }
+
   let res;
   try {
     res = await fetch(`${BASE}${path}`, {

@@ -1,5 +1,5 @@
-import { Layout, theme } from 'antd';
 import { Suspense } from 'react';
+import { Layout, theme } from 'antd';
 import { Outlet } from 'react-router-dom';
 import MyFlex from '../../components/myFlex/MyFlex';
 import useWindowSize from '../../hooks/useWindowSize';

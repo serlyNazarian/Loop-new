@@ -1,17 +1,23 @@
-import { useEffect, useRef } from 'react';
-import { theme } from 'antd';
 import MyText from '../myText/MyText';
+import { useEffect, useRef } from 'react';
+import useMyTheme from '../../hooks/useMyTheme';
 import './MyLoader.css';
 
 export default function MyLoader({ message = 'Loading…', fullScreen = false }) {
-  const { token } = theme.useToken();
+  const { token, isDark } = useMyTheme();
+
   const leftEyeRef = useRef(null);
   const rightEyeRef = useRef(null);
-  const dark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
 
   useEffect(() => {
     const targets = [
-      [-22, 0], [22, 0], [0, -14], [0, 14], [16, -10], [-16, 10], [0, 0],
+      [-22, 0],
+      [22, 0],
+      [0, -14],
+      [0, 14],
+      [16, -10],
+      [-16, 10],
+      [0, 0],
     ];
     let i = 0;
     let raf = 0;
@@ -31,7 +37,8 @@ export default function MyLoader({ message = 'Loading…', fullScreen = false })
       cur.y += (target.y - cur.y) * 0.12;
       const tr = `translate(${cur.x.toFixed(1)} ${cur.y.toFixed(1)})`;
       if (leftEyeRef.current) leftEyeRef.current.setAttribute('transform', tr);
-      if (rightEyeRef.current) rightEyeRef.current.setAttribute('transform', tr);
+      if (rightEyeRef.current)
+        rightEyeRef.current.setAttribute('transform', tr);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -61,21 +68,49 @@ export default function MyLoader({ message = 'Loading…', fullScreen = false })
               strokeMiterlimit="10"
             />
             <g ref={leftEyeRef}>
-              <rect fill="url(#ml-fill)" stroke="none" x="139.89" y="221.49" width="159.28" height="84.54" rx="34.2" ry="34.2" transform="translate(483.29 44.23) rotate(90)" />
+              <rect
+                fill="url(#ml-fill)"
+                stroke="none"
+                x="139.89"
+                y="221.49"
+                width="159.28"
+                height="84.54"
+                rx="34.2"
+                ry="34.2"
+                transform="translate(483.29 44.23) rotate(90)"
+              />
             </g>
             <g ref={rightEyeRef}>
-              <rect fill="url(#ml-fill)" stroke="none" x="302.66" y="221.49" width="159.28" height="84.54" rx="34.2" ry="34.2" transform="translate(646.07 -118.54) rotate(90)" />
+              <rect
+                fill="url(#ml-fill)"
+                stroke="none"
+                x="302.66"
+                y="221.49"
+                width="159.28"
+                height="84.54"
+                rx="34.2"
+                ry="34.2"
+                transform="translate(646.07 -118.54) rotate(90)"
+              />
             </g>
           </svg>
         </div>
       </div>
-
-      <div className="ml-track" aria-hidden style={{ background: dark ? token.loaderTrackDark : token.loaderTrack }}>
+      <div
+        className="ml-track"
+        aria-hidden
+        style={{
+          background: isDark ? token.loaderTrackDark : token.loaderTrack,
+        }}
+      >
         <div className="ml-sweep" style={{ background: token.loaderBar }} />
       </div>
-
       {message && (
-        <MyText color={token.colorTextTertiary} fontSize={12} style={{ letterSpacing: '0.02em' }}>
+        <MyText
+          fontSize={12}
+          color={token.colorTextTertiary}
+          style={{ letterSpacing: '0.02em' }}
+        >
           {message}
         </MyText>
       )}
@@ -84,10 +119,25 @@ export default function MyLoader({ message = 'Loading…', fullScreen = false })
 
   if (fullScreen) {
     return (
-      <div className="ml-fullscreen" style={{ background: dark ? token.loaderFsBgDark : token.loaderFsBg }}>
+      <div
+        className="ml-fullscreen"
+        style={{ background: isDark ? token.loaderFsBgDark : token.loaderFsBg }}
+      >
         <div className="ml-fullscreen-bg" aria-hidden>
-          <div className="ml-blob ml-blob--tl" style={{ background: token.loaderBlobTL, opacity: dark ? 0.18 : 0.1 }} />
-          <div className="ml-blob ml-blob--br" style={{ background: token.loaderBlobBR, opacity: dark ? 0.12 : 0.06 }} />
+          <div
+            className="ml-blob ml-blob--tl"
+            style={{
+              background: token.loaderBlobTL,
+              opacity: isDark ? 0.18 : 0.1,
+            }}
+          />
+          <div
+            className="ml-blob ml-blob--br"
+            style={{
+              background: token.loaderBlobBR,
+              opacity: isDark ? 0.12 : 0.06,
+            }}
+          />
         </div>
         <div className="ml-fullscreen-inner">{content}</div>
       </div>

@@ -1,5 +1,6 @@
 import { theme } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import HomeSkeletonBar from './HomeSkeletonBar';
 import MyFlex from '../../components/myFlex/MyFlex';
 import MyText from '../../components/myText/MyText';
 import { CaretRightOutlined } from '@ant-design/icons';
@@ -9,18 +10,6 @@ import MyFlexVertical from '../../components/myFlex/MyFlexVertical';
 import MyTextSecondary from '../../components/myText/MyTextSecondary';
 
 const TRAFFIC = ['#FF5F57', '#FEBC2E', '#28C840'];
-
-const SkeletonBar = ({ width, token, opacity = 1 }) => (
-  <div
-    style={{
-      width,
-      opacity,
-      height: 10,
-      borderRadius: 6,
-      background: token.colorFillSecondary,
-    }}
-  />
-);
 
 const HomeDashboardPreview = () => {
   const { token } = theme.useToken();
@@ -77,7 +66,7 @@ const HomeDashboardPreview = () => {
         >
           <MyFlexVertical gap={14} style={{ width: 150, flexShrink: 0 }}>
             {[60, 90, 80, 70, 100, 75, 85].map((w, i) => (
-              <SkeletonBar key={i} width={`${w}%`} token={token} />
+              <HomeSkeletonBar key={i} width={`${w}%`} token={token} />
             ))}
           </MyFlexVertical>
           <MyFlexVertical gap={14} style={{ flex: 1 }}>
@@ -95,7 +84,7 @@ const HomeDashboardPreview = () => {
               ))}
             </MyFlex>
             {[95, 88, 92, 80, 90, 70].map((w, i) => (
-              <SkeletonBar
+              <HomeSkeletonBar
                 key={i}
                 width={`${w}%`}
                 token={token}
@@ -132,9 +121,9 @@ const HomeDashboardPreview = () => {
               />
             </MyFlexCenter>
             <MyText
-              color={token.colorPrimary}
-              fontSize={11}
               bold
+              fontSize={11}
+              color={token.colorPrimary}
               style={{ letterSpacing: '0.12em' }}
             >
               INTERACTIVE DEMO

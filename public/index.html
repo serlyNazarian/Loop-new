@@ -17,7 +17,8 @@
     <script>
       (function () {
         try {
-          if (localStorage.getItem('loop.theme') === 'dark') {
+          var raw = localStorage.getItem('loop.theme');
+          if (raw && JSON.parse(raw).state.dark) {
             document.documentElement.classList.add('dark');
           }
         } catch (e) {}

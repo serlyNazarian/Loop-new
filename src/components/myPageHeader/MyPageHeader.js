@@ -6,8 +6,8 @@ import MyTextSecondary from '../myText/MyTextSecondary';
 const MyPageHeader = ({ title, subtitle, actions }) => {
   return (
     <MyFlex
-      justify="space-between"
       align="flex-start"
+      justify="space-between"
       style={{ marginBottom: 24, width: '100%' }}
     >
       <MyFlexVertical gap={2}>

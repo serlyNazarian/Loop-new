@@ -1,13 +1,25 @@
+import { useMemo } from 'react';
 import AppRoutes from './routes/Route';
-import antdTheme from './config/antdTheme';
+import { buildTheme } from './config/antdTheme';
+import useThemeStore from './stores/themeStore';
 import { BrowserRouter } from 'react-router-dom';
 import { ConfigProvider, App as AntApp } from 'antd';
 
 function App() {
+  const dark = useThemeStore((s) => s.dark);
+
+  const future = useMemo(
+    () => ({
+      v7_relativeSplatPath: true,
+      v7_startTransition: true,
+    }),
+    []
+  );
+
   return (
-    <ConfigProvider theme={antdTheme}>
+    <ConfigProvider theme={buildTheme(dark)}>
       <AntApp>
-        <BrowserRouter>
+        <BrowserRouter future={future}>
           <AppRoutes />
         </BrowserRouter>
       </AntApp>

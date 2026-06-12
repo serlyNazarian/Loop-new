@@ -17,11 +17,17 @@ Create React App · React 19 · plain JavaScript (no TypeScript) · antd v6 · r
 
 5. **No monolithic files.** Keep each file small and focused on one job. When a page or component grows large or does several things, break it into focused pieces: extract sub-sections/step components, pull static data (option lists, enums) into their own file, and move reusable logic into `utils/` or an `actions/` module. A component file should read top-to-bottom in one screen or two — if you're scrolling to understand it, split it. See the **Page pattern** below for the multi-step/multi-state split rule, and `pages/auth/register/` as a reference decomposition (orchestrator + section/step components + co-located constants + shared `utils/password.js`).
 
+6. **Group a feature's sub-components in a sub-folder.** When a decomposition produces several files that belong to one piece of a screen (a sidebar, a wizard, a settings panel), put them in a sub-folder named after that feature and keep the orchestrator + shared constants in the parent. Example: `layouts/insideLayout/` holds `InsideLayout.js` (orchestrator), `Header.js`, and `insideLayoutConstants.js`, while every `Sidebar*` file + `sidebar.css` lives in `layouts/insideLayout/sidebar/`. After moving files, fix the relative-import depth (a file one level deeper reaches shared folders via `../../../components/...` instead of `../../components/...`) and point any parent-folder imports at `../`.
+
+7. **CSS class names use snake_case.** Name custom classes `class_name`, not `class-name` — e.g. `sidebar_scroll`, `nav_sheen`. (Keep bespoke CSS to the permitted cases from rule 2: keyframes and structural helpers like a custom scrollbar.)
+
 ## Colors and sizing
 
 - **No inline colors anywhere.** Every color comes from the antd theme. Read brand colors with `theme.useToken()` and apply `token.colorPrimary`, `token.colorText`, the custom `token.auth*` values, etc. Add new brand colors to `src/config/antdTheme.js` (token or custom token) — never hardcode a hex / rgb in a component or page.
 - **No inline control heights.** Size via the theme: use `size="large"` (→ 46px from `controlHeightLG`). Adjust heights in `antdTheme.js`, not in JSX.
+- **No inline border radius.** Corners come from the theme just like colors: `token.borderRadius` (8), `token.radiusRow` (10), `token.radiusItem` (12). Add new radii to `antdTheme.js` — never hardcode a pixel radius in JSX. (A full circle may use `borderRadius: '50%'` inline — that's a shape, not a corner radius.)
 - **No `margin` / `marginBottom` for spacing.** Lay things out with `MyFlex` / `MyFlexVertical` and a `gap`. Form fields already have zero item margin (`Form.itemMarginBottom`), so a single `MyFlexVertical gap={...}` controls the whole form's rhythm.
+- **Don't inline divider spacing.** Use the right divider wrapper — `MyDividerSmall` for a tight 4px gap — instead of `<MyDivider style={{ margin: ... }} />`. Add a new `MyDivider*` variant if you need a different gap.
 
 ## Element → use this instead
 
