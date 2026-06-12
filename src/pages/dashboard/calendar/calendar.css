@@ -1,0 +1,110 @@
+.cal_panel {
+  padding: 8px 16px 16px;
+  background: var(--ant-color-bg-container);
+  border: 1px solid var(--ant-color-border-secondary);
+  border-radius: var(--ant-border-radius-xl);
+  box-shadow: 0 20px 60px -28px rgba(40, 10, 80, 0.18);
+}
+
+.cal_header {
+  padding: 8px 4px 14px;
+}
+
+.cal_events {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cal_empty {
+  padding: 48px 0 8px;
+}
+
+.cal_empty_desc {
+  max-width: 260px;
+}
+
+.cal_empty_icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ant-border-radius-l);
+  color: var(--ant-color-text-secondary);
+  background: var(--ant-color-fill-secondary);
+}
+
+.appt_chip {
+  display: block;
+  max-width: 100%;
+  padding: 1px 5px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.appt_tag {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.appt_cancelled {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.appt_chip_pending {
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.25);
+}
+.appt_chip_confirmed {
+  color: #5b00fd;
+  background: rgba(91, 0, 253, 0.1);
+  border-color: rgba(91, 0, 253, 0.25);
+}
+.appt_chip_completed {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+.appt_chip_cancelled {
+  color: #94a3b8;
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+.appt_chip_no_show {
+  color: #ea580c;
+  background: rgba(234, 88, 12, 0.1);
+  border-color: rgba(234, 88, 12, 0.25);
+}
+
+.appt_row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: var(--ant-border-radius-l);
+  border: 1px solid var(--ant-color-border-secondary);
+  transition:
+    border-color 150ms ease,
+    background 150ms ease;
+}
+
+.appt_row:hover {
+  border-color: rgba(91, 0, 253, 0.4);
+  background: var(--ant-color-fill-quaternary);
+}
+
+.appt_detail_label {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}

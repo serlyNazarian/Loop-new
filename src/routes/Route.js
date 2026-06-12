@@ -12,6 +12,7 @@ const Register = lazy(() => import('../pages/auth/register/Register'));
 const Verify = lazy(() => import('../pages/auth/verify/Verify'));
 const Invite = lazy(() => import('../pages/auth/invite/Invite'));
 const Home = lazy(() => import('../pages/home/Home'));
+const Calendar = lazy(() => import('../pages/dashboard/calendar/Calendar'));
 const ForgotPassword = lazy(
   () => import('../pages/auth/forgotPassword/ForgotPassword')
 );
@@ -32,6 +33,7 @@ const AppRoutes = () => {
       <Route element={<RequireAuth />}>
         <Route element={<InsideLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="dashboard/calendar" element={<Calendar />} />
           {/* Feature pages plug in here as you rebuild them, e.g.:
           <Route path="dashboard/conversations" element={<Conversations />} />
           <Route path="dashboard/contacts" element={<Contacts />} />

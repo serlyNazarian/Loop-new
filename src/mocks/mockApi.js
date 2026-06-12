@@ -4,6 +4,7 @@ import {
   mockWorkspaces,
   mockNotifications,
 } from './mockData';
+import { appointmentHandlers } from './mockAppointments';
 
 export const USE_MOCKS = process.env.REACT_APP_USE_MOCKS === 'true';
 
@@ -15,5 +16,7 @@ const handlers = {
   'POST /api/customer/presence': () => ({ ok: true }),
 };
 
-export const getMockHandler = (method, path) =>
-  handlers[`${method} ${path.split('?')[0]}`];
+export const getMockHandler = (method, path) => {
+  const clean = path.split('?')[0];
+  return handlers[`${method} ${clean}`] || appointmentHandlers(method, clean);
+};
