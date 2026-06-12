@@ -9,31 +9,24 @@ import MyFlexVertical from '../../components/myFlex/MyFlexVertical';
 import MyTextSecondary from '../../components/myText/MyTextSecondary';
 
 const HomeHero = () => {
-  const { token } = theme.useToken();
   const navigate = useNavigate();
+  const { token } = theme.useToken();
   const { isMobile } = useWindowSize();
 
   return (
-    <MyFlexVertical
-      gap={16}
-      align="center"
-      style={{ textAlign: 'center', maxWidth: 860, width: '100%' }}
-    >
+    <MyFlexVertical gap={16} align="center" className="home_hero">
       <HomeAiOrb size={isMobile ? 128 : 160} />
       <MyTextGradient
         fontWeight={700}
         lineHeight={1.2}
+        className="home_hero_title"
         fontSize={isMobile ? 30 : 48}
-        style={{ letterSpacing: '-0.01em' }}
       >
         Respond faster, convert better,
         <br />
         operate smarter
       </MyTextGradient>
-      <MyTextSecondary
-        fontSize={isMobile ? 14 : 16}
-        style={{ maxWidth: 620, lineHeight: 1.6 }}
-      >
+      <MyTextSecondary className="home_hero_sub" fontSize={isMobile ? 14 : 16}>
         Most platforms can't. Loop unifies all customer touchpoints and CRMs in
         a team inbox with AI Agents and native lead management so your
         conversations never break — even when customers switch channels.
@@ -41,8 +34,8 @@ const HomeHero = () => {
       <MyFlex gap={12} wrap="wrap" justify="center">
         <MyButton
           size="large"
-          style={{ borderRadius: 999 }}
           onClick={() => navigate('/register')}
+          style={{ borderRadius: token.borderRadiusPill }}
         >
           Talk to Sales
         </MyButton>
@@ -51,10 +44,10 @@ const HomeHero = () => {
           size="large"
           onClick={() => navigate('/register')}
           style={{
-            borderRadius: 999,
             border: 'none',
             background: token.brandGradient,
             boxShadow: token.brandButtonShadow,
+            borderRadius: token.borderRadiusPill,
           }}
         >
           Request Access

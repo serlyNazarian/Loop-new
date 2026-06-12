@@ -13,8 +13,8 @@ import MyTextSecondary from '../../../components/myText/MyTextSecondary';
 import { updatePresence as updatePresenceAction } from '../../../actions/customerActions';
 
 const SidebarProfile = ({ collapsed }) => {
-  const { token } = theme.useToken();
   const navigate = useNavigate();
+  const { token } = theme.useToken();
 
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
@@ -77,22 +77,14 @@ const SidebarProfile = ({ collapsed }) => {
         align="center"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
+        className={`sidebar_row${collapsed ? ' sidebar_row_collapsed' : ''}`}
         style={{
           padding: 8,
-          cursor: 'pointer',
-          borderRadius: token.radiusItem,
-          transition: 'background 150ms',
-          justifyContent: collapsed ? 'center' : 'flex-start',
+          borderRadius: token.borderRadiusL,
           background: hover || open ? token.colorBgTextHover : 'transparent',
         }}
       >
-        <div
-          style={{
-            position: 'relative',
-            flexShrink: 0,
-            display: 'inline-flex',
-          }}
-        >
+        <div className="relative inline_flex flex_shrink_0">
           <MyAvatar
             shape="square"
             src={user?.profileImageUrl || undefined}
@@ -101,20 +93,17 @@ const SidebarProfile = ({ collapsed }) => {
             {(user?.name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
           </MyAvatar>
           <span
+            className="square_12 circle absolute"
             style={{
-              position: 'absolute',
               right: -2,
               bottom: -2,
-              width: 12,
-              height: 12,
-              borderRadius: '50%',
               background: presenceColor,
               border: `2px solid ${token.colorBgContainer}`,
             }}
           />
         </div>
         {!collapsed && (
-          <MyFlexVertical gap={0} style={{ flex: 1, minWidth: 0 }}>
+          <MyFlexVertical gap={0} className="flex_1 min_w_0">
             <MyText fontSize={13} bold ellipsis lineHeight={1.2}>
               {user?.name || user?.email?.split('@')[0] || 'User'}
             </MyText>

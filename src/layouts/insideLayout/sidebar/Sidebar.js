@@ -1,4 +1,4 @@
-import { Layout, theme } from 'antd';
+import { Layout } from 'antd';
 import SidebarNav from './SidebarNav';
 import SidebarFooter from './SidebarFooter';
 import SidebarWorkspaceSwitcher from './SidebarWorkspaceSwitcher';
@@ -7,28 +7,18 @@ import './sidebar.css';
 
 const { Sider } = Layout;
 
-const Sidebar = ({ collapsed, dark, isMobile }) => {
-  const { token } = theme.useToken();
-
-  const siderStyle = {
-    zIndex: 2,
-    backdropFilter: 'blur(24px)',
-    WebkitBackdropFilter: 'blur(24px)',
-    background: dark ? token.sidebarGlassDark : token.sidebarGlass,
-    borderInlineEnd: `1px solid ${dark ? token.sidebarBorderDark : token.sidebarBorder}`,
-  };
-
+const Sidebar = ({ collapsed, isMobile }) => {
   return (
     <Sider
       theme="light"
       collapsible
       width={240}
       trigger={null}
-      style={siderStyle}
       collapsed={collapsed}
+      className="sidebar_sider"
       collapsedWidth={isMobile ? 0 : 76}
     >
-      <MyFlexVertical gap={8} style={{ height: '100%', paddingTop: 14 }}>
+      <MyFlexVertical gap={8} className="h_100 sidebar_inner">
         <SidebarWorkspaceSwitcher collapsed={collapsed} />
         <SidebarNav collapsed={collapsed} />
         <SidebarFooter collapsed={collapsed} />

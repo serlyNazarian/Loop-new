@@ -26,12 +26,12 @@ const ForgotPasswordOtpStep = ({
         <MyFlexVertical gap={10} align="center">
           <MyTextGradient>Check your email</MyTextGradient>
           <MyFlexVertical gap={2} align="center">
-            <MyTextSecondary fontSize={15} style={{ textAlign: 'center' }}>
+            <MyTextSecondary fontSize={15} className="text_center">
               We've sent a 6-digit code to
             </MyTextSecondary>
             <MyText fontSize={15}>{email}</MyText>
           </MyFlexVertical>
-          <MyTextSecondary fontSize={13} style={{ textAlign: 'center' }}>
+          <MyTextSecondary fontSize={13} className="text_center">
             Check your inbox and spam folder. The code expires in 10 minutes.
           </MyTextSecondary>
         </MyFlexVertical>
@@ -62,7 +62,7 @@ const ForgotPasswordOtpStep = ({
           <MyLink
             to="/login"
             fontSize={14}
-            style={{ whiteSpace: 'nowrap', flexShrink: 0 }}
+            className="nowrap flex_shrink_0"
           >
             Back to sign in
           </MyLink>

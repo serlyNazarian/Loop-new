@@ -19,11 +19,10 @@ const RegisterPasswordStrength = ({ password }) => {
         {[0, 1, 2, 3].map((i) => (
           <div
             key={i}
+            className="flex_1 h_4"
             style={{
-              height: 4,
-              flex: 1,
-              borderRadius: 999,
               transition: 'background 200ms ease',
+              borderRadius: token.borderRadiusPill,
               background:
                 i < strength.score ? strengthColor : token.colorFillSecondary,
             }}
@@ -44,21 +43,18 @@ const RegisterPasswordStrength = ({ password }) => {
         {checks.map((c) => (
           <MyFlex key={c.label} align="center" gap={6}>
             {c.ok ? (
-              <CheckOutlined style={{ color: token.pwCheckOk, fontSize: 11 }} />
+              <CheckOutlined
+                style={{ color: token.pwCheckOk, fontSize: token.fontSizeXS }}
+              />
             ) : (
               <span
-                style={{
-                  width: 11,
-                  height: 11,
-                  flexShrink: 0,
-                  borderRadius: '50%',
-                  border: `1.5px solid ${token.pwCheckOff}`,
-                }}
+                className="square_11 circle flex_shrink_0"
+                style={{ border: `1.5px solid ${token.pwCheckOff}` }}
               />
             )}
             <MyText
-              color={c.ok ? token.pwCheckOk : token.pwCheckOff}
               fontSize={11}
+              color={c.ok ? token.pwCheckOk : token.pwCheckOff}
             >
               {c.label}
             </MyText>

@@ -1,0 +1,30 @@
+.dashboard_bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.dashboard_bg_layer {
+  position: absolute;
+  inset: 0;
+}
+
+.dashboard_bg_base {
+  background-color: var(--ant-dashboard-bg-base);
+}
+
+.dashboard_bg_aurora {
+  background-image: var(--ant-dashboard-aurora);
+}
+
+.dashboard_bg_vignette {
+  background: var(--ant-dashboard-vignette);
+}
+
+.dashboard_bg_dots {
+  background-size: 28px 28px;
+  mask-image: var(--ant-dashboard-dot-mask);
+  background-image: var(--ant-dashboard-dot);
+  -webkit-mask-image: var(--ant-dashboard-dot-mask);
+}

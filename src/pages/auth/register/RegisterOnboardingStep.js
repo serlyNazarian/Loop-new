@@ -38,7 +38,7 @@ const RegisterOnboardingStep = ({ onBack, loading }) => {
           htmlType="submit"
           size="large"
           loading={loading}
-          style={{ flex: 1 }}
+          className="flex_1"
         >
           Create account
         </MyButton>

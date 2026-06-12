@@ -1,0 +1,41 @@
+{
+  "common_back": "Back",
+  "common_open_inbox": "Open inbox",
+  "common_notifications": "Notifications",
+  "common_help": "Help",
+  "common_profile": "Profile",
+  "common_notification_settings": "Notification settings",
+  "common_sign_out": "Sign out",
+  "common_manage_workspaces": "Manage workspaces",
+  "common_up_to_date": "You are up to date",
+
+  "nav_loop": "Loop",
+  "nav_dashboard": "Dashboard",
+  "nav_inbox": "Inbox",
+  "nav_contacts": "Contacts",
+  "nav_ai_agents": "AI Agents",
+  "nav_broadcast": "Broadcast",
+  "nav_team": "Team",
+  "nav_team_map": "Team Map",
+  "nav_calendar": "Calendar",
+  "nav_reports": "Reports",
+  "nav_settings": "Settings",
+  "nav_channels": "Channels",
+  "nav_usage": "Usage",
+
+  "presence_online": "Online",
+  "presence_busy": "Busy",
+  "presence_offline": "Offline",
+
+  "dashboard_welcome": "Welcome back, {{name}}",
+  "dashboard_subtitle": "Here's what's happening across your channels.",
+  "dashboard_conversations": "Conversations",
+  "dashboard_contacts": "Contacts",
+  "dashboard_ai_replies": "AI replies",
+  "dashboard_resolved": "Resolved",
+
+  "help_documentation": "Documentation",
+  "help_contact_support": "Contact Support",
+
+  "language_toggle": "العربية"
+}

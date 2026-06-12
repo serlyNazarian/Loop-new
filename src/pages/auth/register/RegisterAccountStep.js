@@ -94,11 +94,13 @@ const RegisterAccountStep = ({ form, onContinue }) => {
         {confirm && (
           <MyFlex align="center" gap={6}>
             {passwordsMatch && (
-              <CheckOutlined style={{ color: token.pwCheckOk, fontSize: 11 }} />
+              <CheckOutlined
+                style={{ color: token.pwCheckOk, fontSize: token.fontSizeXS }}
+              />
             )}
             <MyText
-              color={passwordsMatch ? token.pwCheckOk : token.colorError}
               fontSize={11}
+              color={passwordsMatch ? token.pwCheckOk : token.colorError}
             >
               {passwordsMatch
                 ? 'Passwords match'
@@ -121,7 +123,7 @@ const RegisterAccountStep = ({ form, onContinue }) => {
           },
         ]}
       >
-        <MyCheckbox style={{ fontSize: 13 }}>
+        <MyCheckbox style={{ fontSize: token.fontSizeMD }}>
           I agree to the{' '}
           <MyLink to="/terms" underline fontSize={13}>
             Terms &amp; Conditions
@@ -130,8 +132,8 @@ const RegisterAccountStep = ({ form, onContinue }) => {
       </MyFormItem>
       <MyButton
         block
-        type="primary"
         size="large"
+        type="primary"
         onClick={onContinue}
         disabled={!step1Filled}
       >

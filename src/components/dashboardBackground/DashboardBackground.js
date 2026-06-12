@@ -1,50 +1,12 @@
-import { theme } from 'antd';
+import './DashboardBackground.css';
 
-export default function DashboardBackground({ dark = false }) {
-  const { token } = theme.useToken();
-
-  const layer = { position: 'absolute', inset: 0 };
-
+export default function DashboardBackground() {
   return (
-    <div
-      style={{ pointerEvents: 'none', position: 'fixed', inset: 0, zIndex: 0 }}
-      aria-hidden
-    >
-      <div
-        style={{
-          ...layer,
-          backgroundColor: dark
-            ? token.dashboardBgBaseDark
-            : token.dashboardBgBase,
-        }}
-      />
-      <div
-        style={{
-          ...layer,
-          backgroundImage: dark
-            ? token.dashboardAuroraDark
-            : token.dashboardAuroraLight,
-        }}
-      />
-      <div
-        style={{
-          ...layer,
-          backgroundImage: dark
-            ? token.dashboardDotDark
-            : token.dashboardDotLight,
-          backgroundSize: '28px 28px',
-          maskImage: token.dashboardDotMask,
-          WebkitMaskImage: token.dashboardDotMask,
-        }}
-      />
-      <div
-        style={{
-          ...layer,
-          background: dark
-            ? token.dashboardVignetteDark
-            : token.dashboardVignetteLight,
-        }}
-      />
+    <div className="dashboard_bg" aria-hidden>
+      <div className="dashboard_bg_layer dashboard_bg_base" />
+      <div className="dashboard_bg_layer dashboard_bg_aurora" />
+      <div className="dashboard_bg_layer dashboard_bg_dots" />
+      <div className="dashboard_bg_layer dashboard_bg_vignette" />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import MyText from '../../components/myText/MyText';
 import MyFlex from '../../components/myFlex/MyFlex';
 import MyImage from '../../components/myImage/MyImage';
 import MyFlexVertical from '../../components/myFlex/MyFlexVertical';
+import './OutsideLayoutLeftRender.css';
 
 const CAPTIONS = [
   ['Customer conversations,', 'on autopilot.'],
@@ -31,40 +32,19 @@ const OutsideLayoutLeftRender = () => {
   }, [index, slides.length]);
 
   return (
-    <div
-      style={{
-        flex: 1,
-        width: '100%',
-        position: 'relative',
-        overflow: 'hidden',
-        minHeight: '100vh',
-        backgroundColor: token.authDarkBase,
-      }}
-    >
+    <div className="ol_left">
       {slides.map((bg, i) => (
         <div
           key={i}
           aria-hidden
+          className="ol_left_slide"
           style={{
-            position: 'absolute',
-            inset: 0,
             backgroundImage: bg,
             opacity: i === index ? 1 : 0,
-            transition: 'opacity 700ms ease',
           }}
         />
       ))}
-      <MyLink
-        to="/dashboard"
-        aria-label="Loop home"
-        style={{
-          position: 'absolute',
-          top: 28,
-          left: 28,
-          zIndex: 1,
-          display: 'inline-flex',
-        }}
-      >
+      <MyLink to="/dashboard" aria-label="Loop home" className="ol_left_logo">
         <MyImage
           src={loopWhite}
           alt="Loop"
@@ -72,26 +52,15 @@ const OutsideLayoutLeftRender = () => {
           style={{ width: 'auto', justifyContent: 'flex-start' }}
         />
       </MyLink>
-      <MyFlexVertical
-        gap={16}
-        style={{
-          position: 'absolute',
-          left: 28,
-          bottom: 28,
-          right: 28,
-          zIndex: 1,
-        }}
-      >
-        <div style={{ position: 'relative', minHeight: 80 }}>
+      <MyFlexVertical gap={16} className="ol_left_captions">
+        <div className="ol_left_caption_box">
           {CAPTIONS.map(([line1, line2], i) => (
             <MyFlexVertical
               key={i}
               gap={0}
+              className="ol_left_caption"
               style={{
-                position: 'absolute',
-                inset: 0,
                 opacity: i === index ? 1 : 0,
-                transition: 'opacity 700ms ease',
               }}
             >
               <MyText
@@ -122,14 +91,10 @@ const OutsideLayoutLeftRender = () => {
               type="button"
               onClick={() => setIndex(i)}
               aria-label={`Show slide ${i + 1}`}
+              className="ol_left_dot"
               style={{
-                height: 8,
-                padding: 0,
-                border: 0,
-                cursor: 'pointer',
-                borderRadius: 999,
                 width: i === index ? 32 : 8,
-                transition: 'width 300ms ease, background 300ms ease',
+                borderRadius: token.borderRadiusPill,
                 background:
                   i === index ? token.authOnDark : token.authDotInactive,
               }}

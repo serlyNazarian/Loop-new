@@ -20,8 +20,8 @@ const InviteStatusCard = ({
   variant = 'neutral',
   actionPrimary = false,
 }) => {
-  const { token } = theme.useToken();
   const navigate = useNavigate();
+  const { token } = theme.useToken();
 
   const variants = {
     success: {
@@ -50,13 +50,11 @@ const InviteStatusCard = ({
   return (
     <MyCardTransparent styles={{ body: { padding: 0 } }}>
       <MyFlexVertical gap={16} align="center">
-        <MyFlexCenter
-          style={{ width: 56, height: 56, borderRadius: '50%', background: bg }}
-        >
-          <Icon style={{ color: fg, fontSize: 24 }} />
+        <MyFlexCenter className="square_56 circle" style={{ background: bg }}>
+          <Icon style={{ color: fg, fontSize: token.fontSizeXXL }} />
         </MyFlexCenter>
         <MyText fontSize={22}>{title}</MyText>
-        <MyTextSecondary fontSize={15} style={{ textAlign: 'center' }}>
+        <MyTextSecondary fontSize={15} className="text_center">
           {subtitle}
         </MyTextSecondary>
         {actionLabel && (

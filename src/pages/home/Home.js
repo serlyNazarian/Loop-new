@@ -3,27 +3,23 @@ import HomeBackground from './HomeBackground';
 import useWindowSize from '../../hooks/useWindowSize';
 import HomeDashboardPreview from './HomeDashboardPreview';
 import MyFlexVertical from '../../components/myFlex/MyFlexVertical';
+import './Home.css';
 
 const Home = () => {
   const { isMobile } = useWindowSize();
 
   return (
-    <div
-      style={{ position: 'relative', minHeight: '100vh', overflowX: 'hidden' }}
-    >
+    <div className="home_root">
       <HomeBackground />
       <MyFlexVertical
         align="center"
         gap={48}
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          padding: isMobile ? '80px 20px 40px' : '120px 24px 64px',
-        }}
+        className="home_content"
+        style={{ padding: isMobile ? '80px 20px 40px' : '120px 24px 64px' }}
       >
         <HomeHero />
         {!isMobile && (
-          <div style={{ width: '100%', maxWidth: 880 }}>
+          <div className="home_preview">
             <HomeDashboardPreview />
           </div>
         )}

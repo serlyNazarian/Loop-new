@@ -91,7 +91,7 @@ const ForgotPasswordPasswordStep = ({
                 htmlType="submit"
                 loading={loading}
                 disabled={!passwordsMatch}
-                style={{ flex: 1 }}
+                className="flex_1"
               >
                 Reset password
               </MyButton>

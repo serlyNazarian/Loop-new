@@ -4,6 +4,7 @@ import {
   CustomerServiceOutlined,
 } from '@ant-design/icons';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import SidebarRailButton from './SidebarRailButton';
 import MyButton from '../../../components/myButton/MyButton';
@@ -11,15 +12,16 @@ import MyPopover from '../../../components/myPopover/MyPopover';
 import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
 
 const LINKS = [
-  { icon: <ReadOutlined />, label: 'Documentation', to: '/docs' },
+  { icon: <ReadOutlined />, label: 'help_documentation', to: '/docs' },
   {
     icon: <CustomerServiceOutlined />,
-    label: 'Contact Support',
+    label: 'help_contact_support',
     to: '/docs/contact',
   },
 ];
 
 const SidebarHelp = ({ collapsed }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -37,9 +39,9 @@ const SidebarHelp = ({ collapsed }) => {
           type="text"
           icon={l.icon}
           onClick={() => go(l.to)}
-          style={{ width: '100%', justifyContent: 'flex-start' }}
+          className="w_100 justify_start"
         >
-          {l.label}
+          {t(l.label)}
         </MyButton>
       ))}
     </MyFlexVertical>
@@ -56,7 +58,7 @@ const SidebarHelp = ({ collapsed }) => {
         <SidebarRailButton
           collapsed={collapsed}
           active={open}
-          label="Help"
+          label={t('common_help')}
           icon={<QuestionCircleOutlined />}
         />
       </div>

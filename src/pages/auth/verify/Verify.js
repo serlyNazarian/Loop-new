@@ -118,7 +118,7 @@ const Verify = () => {
           <MyLink
             to="/login"
             fontSize={14}
-            style={{ whiteSpace: 'nowrap', flexShrink: 0 }}
+            className="nowrap flex_shrink_0"
           >
             Back to login
           </MyLink>

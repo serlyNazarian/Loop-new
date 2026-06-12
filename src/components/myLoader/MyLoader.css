@@ -1,90 +1,129 @@
-.ml-inline {
+.ml_inline {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 48px 0;
 }
+
 @media (min-width: 640px) {
-  .ml-inline {
+  .ml_inline {
     padding: 64px 0;
   }
 }
 
-.ml-content {
+.ml_content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 16px;
 }
-.ml-mark-wrap {
+
+.ml_mark_wrap {
   position: relative;
 }
-.ml-halo {
+
+.ml_halo {
   position: absolute;
   inset: -18px;
   border-radius: 999px;
   filter: blur(28px);
   pointer-events: none;
-  animation: ml-halo 2.4s ease-in-out infinite;
+  background: var(--ant-loader-halo);
+  animation: ml_halo 2.4s ease-in-out infinite;
 }
-.ml-bob {
+
+.ml_fill_a {
+  stop-color: var(--ant-color-brand-blue);
+}
+
+.ml_fill_b {
+  stop-color: var(--ant-color-primary);
+}
+
+.ml_message {
+  letter-spacing: 0.02em;
+}
+
+.ml_bob {
   position: relative;
-  animation: ml-bob 2.4s ease-in-out infinite;
+  animation: ml_bob 2.4s ease-in-out infinite;
 }
-.ml-track {
+
+.ml_track {
   position: relative;
   width: 80px;
   height: 2px;
   border-radius: 999px;
   overflow: hidden;
+  background: var(--ant-loader-track);
 }
-.ml-sweep {
+
+.ml_sweep {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   width: 40%;
   border-radius: 999px;
-  animation: ml-sweep 1.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  background: var(--ant-loader-bar);
+  animation: ml_sweep 1.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
-.ml-fullscreen {
+.ml_fullscreen {
   min-height: 100vh;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--ant-loader-fs-bg);
 }
-.ml-fullscreen-bg {
+
+.ml_fullscreen_bg {
   pointer-events: none;
   position: absolute;
   inset: 0;
 }
-.ml-blob {
+
+.ml_blob {
   position: absolute;
   border-radius: 999px;
 }
-.ml-blob--tl {
+
+.ml_blob_tl {
   top: -160px;
   left: -160px;
   width: 600px;
   height: 600px;
+  opacity: 0.1;
+  background: var(--ant-loader-blob-tl);
 }
-.ml-blob--br {
+
+.ml_blob_br {
   bottom: -128px;
   right: -128px;
   width: 520px;
   height: 520px;
+  opacity: 0.06;
+  background: var(--ant-loader-blob-br);
 }
-.ml-fullscreen-inner {
+
+.dark .ml_blob_tl {
+  opacity: 0.18;
+}
+
+.dark .ml_blob_br {
+  opacity: 0.12;
+}
+
+.ml_fullscreen_inner {
   position: relative;
   z-index: 10;
   text-align: center;
 }
 
-@keyframes ml-halo {
+@keyframes ml_halo {
   0%,
   100% {
     opacity: 0.5;
@@ -95,7 +134,8 @@
     transform: scale(1.06);
   }
 }
-@keyframes ml-bob {
+
+@keyframes ml_bob {
   0%,
   100% {
     transform: translateY(0);
@@ -104,7 +144,8 @@
     transform: translateY(-6px);
   }
 }
-@keyframes ml-sweep {
+
+@keyframes ml_sweep {
   0% {
     transform: translateX(-120%);
   }
@@ -114,9 +155,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ml-halo,
-  .ml-bob,
-  .ml-sweep {
+  .ml_halo,
+  .ml_bob,
+  .ml_sweep {
     animation: none;
   }
 }

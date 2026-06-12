@@ -16,9 +16,18 @@ const antdTheme = {
 
     fontFamily: "'Garet', sans-serif",
     fontSize: 14,
+    fontSizeXS: 11,
+    fontSizeMD: 13,
+    fontSizeXXL: 24,
+    fontSizeXXXL: 28,
+
     borderRadius: 8,
-    radiusRow: 10,
-    radiusItem: 12,
+    borderRadiusS: 6,
+    borderRadiusM: 10,
+    borderRadiusL: 12,
+    borderRadiusXL: 16,
+    borderRadiusXXL: 20,
+    borderRadiusPill: 999,
     controlHeightLG: 46,
 
     colorBrandBlue: '#0066ff',
@@ -54,29 +63,18 @@ const antdTheme = {
     authTitleGradient: 'linear-gradient(135deg, #0a0a0a 0%, #1f2937 50%, #0066ff 100%)',
 
     dashboardBgBase: '#f4f4f7',
-    dashboardBgBaseDark: '#0a0a0c',
-    dashboardAuroraLight: [
+    dashboardAurora: [
       'radial-gradient(at 12% 18%, rgba(91,0,253,0.10) 0%, transparent 45%)',
       'radial-gradient(at 88% 12%, rgba(0,102,255,0.09) 0%, transparent 48%)',
       'radial-gradient(at 72% 78%, rgba(255,106,213,0.06) 0%, transparent 50%)',
       'radial-gradient(at 22% 88%, rgba(91,0,253,0.07) 0%, transparent 45%)',
     ].join(', '),
-    dashboardAuroraDark: [
-      'radial-gradient(at 50% 0%, rgba(255,255,255,0.035) 0%, transparent 55%)',
-      'radial-gradient(at 85% 95%, rgba(255,255,255,0.02) 0%, transparent 50%)',
-    ].join(', '),
-    dashboardDotLight: 'radial-gradient(circle, rgba(91,0,253,0.07) 1px, transparent 1.5px)',
-    dashboardDotDark: 'radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1.5px)',
+    dashboardDot: 'radial-gradient(circle, rgba(91,0,253,0.07) 1px, transparent 1.5px)',
     dashboardDotMask: DOT_MASK,
-    dashboardVignetteLight: 'radial-gradient(ellipse 130% 90% at 50% 50%, transparent 45%, rgba(40,10,80,0.10) 100%)',
-    dashboardVignetteDark: 'radial-gradient(ellipse 130% 90% at 50% 50%, transparent 45%, rgba(0,0,0,0.45) 100%)',
+    dashboardVignette: 'radial-gradient(ellipse 130% 90% at 50% 50%, transparent 45%, rgba(40,10,80,0.10) 100%)',
 
     sidebarGlass: 'rgba(255,255,255,0.55)',
-    sidebarGlassDark: 'rgba(10,10,12,0.40)',
-    sidebarBorder: 'rgba(0,0,0,0.04)',
-    sidebarBorderDark: 'rgba(255,255,255,0.04)',
     headerGlass: 'rgba(255,255,255,0.55)',
-    headerGlassDark: 'rgba(10,10,12,0.45)',
     navActiveBg: 'rgba(91,0,253,0.09)',
     navActiveDotShadow: '0 0 0 3px rgba(91,0,253,0.18)',
     navFeaturedGradient: 'linear-gradient(135deg, #5b00fd 0%, #8b5cf6 55%, #a78bfa 100%)',
@@ -92,9 +90,7 @@ const antdTheme = {
     loaderHalo: 'radial-gradient(circle, rgba(91,0,253,0.40) 0%, rgba(0,102,255,0.20) 50%, transparent 75%)',
     loaderBar: 'linear-gradient(90deg, #0066ff 0%, #5b00fd 100%)',
     loaderTrack: 'rgba(0,0,0,0.12)',
-    loaderTrackDark: 'rgba(255,255,255,0.10)',
     loaderFsBg: '#f5f5f5',
-    loaderFsBgDark: '#0d0d0d',
     loaderBlobTL: 'radial-gradient(circle, #5b00fd 0%, transparent 65%)',
     loaderBlobBR: 'radial-gradient(circle, #0066ff 0%, transparent 65%)',
 
@@ -146,12 +142,28 @@ const LIGHT_SURFACES = {
   colorBgLayout: '#f3f1ff',
 };
 
+const DARK_SURFACES = {
+  sidebarGlass: 'rgba(10,10,12,0.40)',
+  headerGlass: 'rgba(10,10,12,0.45)',
+  dashboardBgBase: '#0a0a0c',
+  dashboardAurora: [
+    'radial-gradient(at 50% 0%, rgba(255,255,255,0.035) 0%, transparent 55%)',
+    'radial-gradient(at 85% 95%, rgba(255,255,255,0.02) 0%, transparent 50%)',
+  ].join(', '),
+  dashboardDot: 'radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1.5px)',
+  dashboardVignette:
+    'radial-gradient(ellipse 130% 90% at 50% 50%, transparent 45%, rgba(0,0,0,0.45) 100%)',
+  loaderTrack: 'rgba(255,255,255,0.10)',
+  loaderFsBg: '#0d0d0d',
+};
+
 export const buildTheme = (dark) => ({
   ...antdTheme,
+  cssVar: true,
   algorithm: dark
     ? antdAlgorithms.darkAlgorithm
     : antdAlgorithms.defaultAlgorithm,
-  token: { ...antdTheme.token, ...(dark ? {} : LIGHT_SURFACES) },
+  token: { ...antdTheme.token, ...(dark ? DARK_SURFACES : LIGHT_SURFACES) },
 });
 
 export default buildTheme;

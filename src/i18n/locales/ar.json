@@ -1,0 +1,41 @@
+{
+  "common_back": "رجوع",
+  "common_open_inbox": "فتح البريد الوارد",
+  "common_notifications": "الإشعارات",
+  "common_help": "المساعدة",
+  "common_profile": "الملف الشخصي",
+  "common_notification_settings": "إعدادات الإشعارات",
+  "common_sign_out": "تسجيل الخروج",
+  "common_manage_workspaces": "إدارة مساحات العمل",
+  "common_up_to_date": "أنت على اطّلاع بكل جديد",
+
+  "nav_loop": "لووب",
+  "nav_dashboard": "لوحة التحكم",
+  "nav_inbox": "البريد الوارد",
+  "nav_contacts": "جهات الاتصال",
+  "nav_ai_agents": "وكلاء الذكاء الاصطناعي",
+  "nav_broadcast": "البث",
+  "nav_team": "الفريق",
+  "nav_team_map": "خريطة الفريق",
+  "nav_calendar": "التقويم",
+  "nav_reports": "التقارير",
+  "nav_settings": "الإعدادات",
+  "nav_channels": "القنوات",
+  "nav_usage": "الاستخدام",
+
+  "presence_online": "متصل",
+  "presence_busy": "مشغول",
+  "presence_offline": "غير متصل",
+
+  "dashboard_welcome": "مرحبًا بعودتك، {{name}}",
+  "dashboard_subtitle": "إليك ما يجري عبر قنواتك.",
+  "dashboard_conversations": "المحادثات",
+  "dashboard_contacts": "جهات الاتصال",
+  "dashboard_ai_replies": "ردود الذكاء الاصطناعي",
+  "dashboard_resolved": "تم الحل",
+
+  "help_documentation": "التوثيق",
+  "help_contact_support": "التواصل مع الدعم",
+
+  "language_toggle": "English"
+}

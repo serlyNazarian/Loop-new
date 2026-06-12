@@ -17,9 +17,9 @@ import MyCardTransparent from '../../../components/myCard/MyCardTransparent';
 const API_BASE = process.env.REACT_APP_API_BASE_URL || '';
 
 const Register = () => {
-  const { token } = theme.useToken();
   const navigate = useNavigate();
   const [form] = MyForm.useForm();
+  const { token } = theme.useToken();
 
   const [step, setStep] = useState(1);
   const [error, setError] = useState(null);
@@ -109,7 +109,9 @@ const Register = () => {
         </MyForm>
         {step === 1 && (
           <>
-            <MyDivider style={{ fontSize: 11, letterSpacing: '0.08em' }}>
+            <MyDivider
+              style={{ fontSize: token.fontSizeXS, letterSpacing: '0.08em' }}
+            >
               OR REGISTER WITH
             </MyDivider>
             <SocialLoginButtons

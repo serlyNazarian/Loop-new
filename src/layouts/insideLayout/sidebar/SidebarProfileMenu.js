@@ -1,48 +1,17 @@
 import { theme } from 'antd';
-import { useState } from 'react';
 import {
   CheckOutlined,
   UserOutlined,
   BellOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import MyFlex from '../../../components/myFlex/MyFlex';
 import MyText from '../../../components/myText/MyText';
+import { useTranslation } from 'react-i18next';
+import SidebarProfileMenuRow from './SidebarProfileMenuRow';
+import { PRESENCE_STATUSES } from '../../../utils/presence';
 import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
 import MyTextSecondary from '../../../components/myText/MyTextSecondary';
 import MyDividerSmall from '../../../components/myDivider/MyDividerSmall';
-import { PRESENCE_STATUSES, PRESENCE_META } from '../../../utils/presence';
-
-const Row = ({ children, onClick, selected, danger }) => {
-  const { token } = theme.useToken();
-
-  const [hover, setHover] = useState(false);
-
-  const background = selected
-    ? token.navActiveBg
-    : hover
-      ? danger
-        ? token.colorErrorBg
-        : token.colorBgTextHover
-      : 'transparent';
-
-  return (
-    <MyFlex
-      align="center"
-      onClick={onClick}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={{
-        cursor: 'pointer',
-        padding: '8px 10px',
-        borderRadius: token.radiusRow,
-        background,
-      }}
-    >
-      {children}
-    </MyFlex>
-  );
-};
 
 const SidebarProfileMenu = ({
   name,
@@ -53,11 +22,12 @@ const SidebarProfileMenu = ({
   onPresence,
   onNotifications,
 }) => {
+  const { t } = useTranslation();
   const { token } = theme.useToken();
 
   const dotColor = {
-    online: token.colorSuccess,
     busy: token.colorWarning,
+    online: token.colorSuccess,
     offline: token.colorTextQuaternary,
   };
 
@@ -72,50 +42,57 @@ const SidebarProfileMenu = ({
         </MyTextSecondary>
       </MyFlexVertical>
       {PRESENCE_STATUSES?.map((s) => (
-        <Row key={s} selected={presence === s} onClick={() => onPresence(s)}>
+        <SidebarProfileMenuRow
+          key={s}
+          selected={presence === s}
+          onClick={() => onPresence(s)}
+        >
           <span
-            style={{
-              width: 9,
-              height: 9,
-              flexShrink: 0,
-              borderRadius: '50%',
-              background: dotColor[s],
-            }}
+            className="square_9 circle flex_shrink_0"
+            style={{ background: dotColor[s] }}
           />
-          <MyText fontSize={13} color={token.colorText} style={{ flex: 1 }}>
-            {PRESENCE_META[s].label}
+          <MyText fontSize={13} color={token.colorText} className="flex_1">
+            {t(`presence_${s}`)}
           </MyText>
           {presence === s && (
             <CheckOutlined
-              style={{ color: token.colorPrimary, fontSize: 13 }}
+              style={{ color: token.colorPrimary, fontSize: token.fontSizeMD }}
             />
           )}
-        </Row>
+        </SidebarProfileMenuRow>
       ))}
       <MyDividerSmall />
-      <Row onClick={onProfile}>
+      <SidebarProfileMenuRow onClick={onProfile}>
         <UserOutlined
-          style={{ color: token.colorTextSecondary, fontSize: 15 }}
+          style={{
+            fontSize: token.fontSizeLG,
+            color: token.colorTextSecondary,
+          }}
         />
         <MyText fontSize={13} color={token.colorText}>
-          Profile
+          {t('common_profile')}
         </MyText>
-      </Row>
-      <Row onClick={onNotifications}>
+      </SidebarProfileMenuRow>
+      <SidebarProfileMenuRow onClick={onNotifications}>
         <BellOutlined
-          style={{ color: token.colorTextSecondary, fontSize: 15 }}
+          style={{
+            fontSize: token.fontSizeLG,
+            color: token.colorTextSecondary,
+          }}
         />
         <MyText fontSize={13} color={token.colorText}>
-          Notification settings
+          {t('common_notification_settings')}
         </MyText>
-      </Row>
+      </SidebarProfileMenuRow>
       <MyDividerSmall />
-      <Row danger onClick={onSignOut}>
-        <LogoutOutlined style={{ color: token.colorError, fontSize: 15 }} />
+      <SidebarProfileMenuRow danger onClick={onSignOut}>
+        <LogoutOutlined
+          style={{ color: token.colorError, fontSize: token.fontSizeLG }}
+        />
         <MyText fontSize={13} color={token.colorError}>
-          Sign out
+          {t('common_sign_out')}
         </MyText>
-      </Row>
+      </SidebarProfileMenuRow>
     </MyFlexVertical>
   );
 };

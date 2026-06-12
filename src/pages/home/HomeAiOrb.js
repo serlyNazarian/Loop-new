@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { theme } from 'antd';
 import './Home.css';
 
 const HomeAiOrb = ({ size = 160 }) => {
-  const { token } = theme.useToken();
-
   const orbRef = useRef(null);
 
   const [squint, setSquint] = useState(0);
@@ -53,70 +50,30 @@ const HomeAiOrb = ({ size = 160 }) => {
   }, []);
 
   return (
-    <div style={{ display: 'inline-block' }} aria-hidden>
-      <div className="home-orb-float" style={{ position: 'relative' }}>
-        <div
-          style={{
-            position: 'absolute',
-            inset: '-30%',
-            borderRadius: '50%',
-            filter: 'blur(40px)',
-            pointerEvents: 'none',
-            background: token.orbHalo,
-          }}
-        />
+    <div className="home_orb_root" aria-hidden>
+      <div className="home_orb_float">
+        <div className="home_orb_halo" />
         <div
           ref={orbRef}
+          className="home_orb_body"
           style={{
-            position: 'relative',
             width: size,
             height: size,
-            overflow: 'hidden',
-            background: token.brandGradient,
-            boxShadow: token.orbBodyShadow,
-            WebkitMaskImage: "url('/icons/chatbot-shape.svg')",
             maskImage: "url('/icons/chatbot-shape.svg')",
-            WebkitMaskSize: 'contain',
-            maskSize: 'contain',
-            WebkitMaskRepeat: 'no-repeat',
-            maskRepeat: 'no-repeat',
-            WebkitMaskPosition: 'center',
-            maskPosition: 'center',
+            WebkitMaskImage: "url('/icons/chatbot-shape.svg')",
           }}
         >
+          <div className="home_orb_sheen" />
           <div
-            className="home-orb-rotate"
+            className="home_orb_highlight"
             style={{
-              position: 'absolute',
-              inset: 0,
-              pointerEvents: 'none',
-              background: token.orbSheen,
-              mixBlendMode: 'overlay',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
               top: size * 0.08,
               left: size * 0.15,
               width: size * 0.34,
               height: size * 0.22,
-              borderRadius: '50%',
-              background: 'rgba(255,255,255,0.55)',
-              filter: 'blur(8px)',
-              pointerEvents: 'none',
             }}
           />
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: size * 0.26,
-            }}
-          >
+          <div className="home_orb_eyes" style={{ gap: size * 0.26 }}>
             {[0, 1].map((i) => (
               <div
                 key={i}
@@ -133,16 +90,8 @@ const HomeAiOrb = ({ size = 160 }) => {
                   }}
                 >
                   <div
-                    className="home-orb-blink-eye"
-                    style={{
-                      width: size * 0.05,
-                      height: size * 0.18,
-                      borderRadius: 999,
-                      background:
-                        'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.92) 100%)',
-                      boxShadow:
-                        '0 1px 3px rgba(0,0,30,0.18), inset 0 1px 1px rgba(255,255,255,0.9)',
-                    }}
+                    className="home_orb_eye"
+                    style={{ width: size * 0.05, height: size * 0.18 }}
                   />
                 </div>
               </div>

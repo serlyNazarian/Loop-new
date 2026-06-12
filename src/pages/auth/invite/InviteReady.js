@@ -20,11 +20,18 @@ const InviteReady = ({ invite, onAccept, onDecline }) => {
     <MyCardTransparent styles={{ body: { padding: 0 } }}>
       <MyFlexVertical gap={20}>
         <MyFlexVertical gap={8} align="center">
-          <MyAvatar shape="square" size={56} style={{ backgroundColor: token.colorPrimary, fontSize: 22 }}>
+          <MyAvatar
+            shape="square"
+            size={56}
+            style={{
+              fontSize: token.fontSizeXL,
+              backgroundColor: token.colorPrimary,
+            }}
+          >
             {initial}
           </MyAvatar>
           <MyText fontSize={26}>You've been invited</MyText>
-          <MyTextSecondary fontSize={15} style={{ textAlign: 'center' }}>
+          <MyTextSecondary fontSize={15} className="text_center">
             {invite.inviterName} invited you to join their workspace.
           </MyTextSecondary>
         </MyFlexVertical>
@@ -38,10 +45,13 @@ const InviteReady = ({ invite, onAccept, onDecline }) => {
             border: `1px solid ${token.colorBorderSecondary}`,
           }}
         >
-          <MyAvatar shape="square" style={{ backgroundColor: token.colorPrimary, flexShrink: 0 }}>
+          <MyAvatar
+            shape="square"
+            style={{ backgroundColor: token.colorPrimary, flexShrink: 0 }}
+          >
             {initial}
           </MyAvatar>
-          <MyFlexVertical gap={0} style={{ flex: 1, minWidth: 0 }}>
+          <MyFlexVertical gap={0} className="flex_1 min_w_0">
             <MyText fontSize={14} bold ellipsis>
               {invite.workspaceName}
             </MyText>
@@ -53,7 +63,14 @@ const InviteReady = ({ invite, onAccept, onDecline }) => {
         </MyFlex>
 
         <MyFlexVertical gap={10}>
-          <MyButton type="primary" block size="large" icon={<ArrowRightOutlined />} iconPosition="end" onClick={onAccept}>
+          <MyButton
+            block
+            size="large"
+            type="primary"
+            icon={<ArrowRightOutlined />}
+            iconPosition="end"
+            onClick={onAccept}
+          >
             Accept invite
           </MyButton>
           <MyButton block size="large" onClick={onDecline}>
@@ -62,7 +79,9 @@ const InviteReady = ({ invite, onAccept, onDecline }) => {
         </MyFlexVertical>
 
         <MyFlexCenter gap={5}>
-          <MyTextSecondary fontSize={12}>Signed in as {invite.email}.</MyTextSecondary>
+          <MyTextSecondary fontSize={12}>
+            Signed in as {invite.email}.
+          </MyTextSecondary>
           <MyLink to="/login" fontSize={12}>
             Switch account
           </MyLink>

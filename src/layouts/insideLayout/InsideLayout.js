@@ -45,8 +45,8 @@ export default function InsideLayout() {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <DashboardBackground dark={dark} />
-      <Sidebar dark={dark} isMobile={isMobile} collapsed={collapsed} />
+      <DashboardBackground />
+      <Sidebar isMobile={isMobile} collapsed={collapsed} />
       <Layout style={{ background: 'transparent' }}>
         <Header
           dark={dark}

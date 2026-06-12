@@ -1,0 +1,16 @@
+.ol_left_panel {
+  display: flex;
+  height: 100%;
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.ol_right {
+  flex: 1;
+  display: flex;
+  overflow-y: auto;
+  flex-direction: column;
+  background-color: var(--ant-auth-panel-bg);
+  background-image: var(--ant-auth-panel-overlay);
+  background-size: var(--ant-auth-panel-overlay-size);
+}

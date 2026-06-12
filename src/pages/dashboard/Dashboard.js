@@ -7,12 +7,14 @@ import {
 } from '@ant-design/icons';
 import api from '../../utils/apiClient';
 import { Row, Col, Spin, Alert } from 'antd';
+import { useTranslation } from 'react-i18next';
 import useAuthStore from '../../stores/authStore';
 import MyFlexCenter from '../../components/myFlex/MyFlexCenter';
 import MyPageHeader from '../../components/myPageHeader/MyPageHeader';
 import MyCardStatistic from '../../components/myCardStatistic/MyCardStatistic';
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
 
   const [error, setError] = useState(null);
@@ -41,25 +43,25 @@ const Dashboard = () => {
   const stats = [
     {
       key: 'conversations',
-      label: 'Conversations',
+      label: t('dashboard_conversations'),
       icon: <MessageOutlined />,
       value: snapshot?.totalConversations,
     },
     {
       key: 'contacts',
-      label: 'Contacts',
+      label: t('dashboard_contacts'),
       icon: <ContactsOutlined />,
       value: snapshot?.totalContacts,
     },
     {
       key: 'aiReplies',
-      label: 'AI replies',
+      label: t('dashboard_ai_replies'),
       icon: <RobotOutlined />,
       value: snapshot?.aiReplies,
     },
     {
       key: 'resolved',
-      label: 'Resolved',
+      label: t('dashboard_resolved'),
       icon: <CheckCircleOutlined />,
       value: snapshot?.resolved,
     },
@@ -68,8 +70,8 @@ const Dashboard = () => {
   return (
     <>
       <MyPageHeader
-        title={`Welcome back, ${firstName}`}
-        subtitle="Here's what's happening across your channels."
+        title={t('dashboard_welcome', { name: firstName })}
+        subtitle={t('dashboard_subtitle')}
       />
       {error && (
         <Alert

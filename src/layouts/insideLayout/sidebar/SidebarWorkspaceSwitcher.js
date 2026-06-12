@@ -1,5 +1,6 @@
 import { theme } from 'antd';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import MyFlex from '../../../components/myFlex/MyFlex';
 import MyText from '../../../components/myText/MyText';
@@ -12,6 +13,7 @@ import ChevronDownIcon from '../../../components/icons/ChevronDownIcon';
 import MyTextSecondary from '../../../components/myText/MyTextSecondary';
 
 const SidebarWorkspaceSwitcher = ({ collapsed }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { token } = theme.useToken();
 
@@ -30,14 +32,8 @@ const SidebarWorkspaceSwitcher = ({ collapsed }) => {
 
   const avatarTile = (letter, size) => (
     <MyFlexCenter
-      style={{
-        width: size,
-        height: size,
-        flexShrink: 0,
-        boxShadow: token.wsAvatarShadow,
-        borderRadius: token.borderRadius,
-        background: token.wsAvatarGradient,
-      }}
+      className="flex_shrink_0 ws_avatar"
+      style={{ width: size, height: size }}
     >
       <MyText color={token.colorWhite} fontSize={11} bold>
         {letter}
@@ -46,14 +42,15 @@ const SidebarWorkspaceSwitcher = ({ collapsed }) => {
   );
 
   const rows = (w, nameBold) => (
-    <MyFlexVertical gap={0} style={{ flex: 1, minWidth: 0 }}>
+    <MyFlexVertical gap={0} className="flex_1 min_w_0">
       <MyText fontSize={13} bold={nameBold} ellipsis lineHeight={1.2}>
         {w?.name}
       </MyText>
       <MyTextSecondary
         ellipsis
         fontSize={10}
-        style={{ textTransform: 'capitalize', lineHeight: 1.2 }}
+        className="capitalize"
+        style={{ lineHeight: 1.2 }}
       >
         {roleOf(w)}
       </MyTextSecondary>
@@ -76,7 +73,7 @@ const SidebarWorkspaceSwitcher = ({ collapsed }) => {
       {
         key: '__manage',
         icon: <ControlOutlined />,
-        label: 'Manage workspaces',
+        label: t('common_manage_workspaces'),
       },
     ],
     onClick: ({ key }) => {
@@ -95,14 +92,12 @@ const SidebarWorkspaceSwitcher = ({ collapsed }) => {
       >
         <MyFlex
           align="center"
+          className="sidebar_row w_100"
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
           style={{
             padding: 8,
-            width: '100%',
-            cursor: 'pointer',
-            borderRadius: token.radiusItem,
-            transition: 'background 150ms',
+            borderRadius: token.borderRadiusL,
             background: hover || open ? token.colorBgTextHover : 'transparent',
           }}
         >
@@ -110,8 +105,8 @@ const SidebarWorkspaceSwitcher = ({ collapsed }) => {
           {rows(active, true)}
           <ChevronDownIcon
             size={14}
+            className="flex_shrink_0"
             style={{
-              flexShrink: 0,
               transition: 'transform 200ms',
               color: token.colorTextTertiary,
               transform: open ? 'rotate(180deg)' : 'none',

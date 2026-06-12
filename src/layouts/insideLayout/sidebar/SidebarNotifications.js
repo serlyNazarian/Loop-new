@@ -1,5 +1,5 @@
-import { theme } from 'antd';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { timeAgo } from '../../../utils/time';
 import { BellOutlined } from '@ant-design/icons';
 import SidebarRailButton from './SidebarRailButton';
@@ -8,15 +8,15 @@ import MyText from '../../../components/myText/MyText';
 import MyEmpty from '../../../components/myEmpty/MyEmpty';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MyButton from '../../../components/myButton/MyButton';
+import SidebarNotificationRow from './SidebarNotificationRow';
 import MyPopover from '../../../components/myPopover/MyPopover';
-import MyFlexCenter from '../../../components/myFlex/MyFlexCenter';
 import { getNotifications } from '../../../actions/customerActions';
 import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
-import ChevronDownIcon from '../../../components/icons/ChevronDownIcon';
-import MyTextSecondary from '../../../components/myText/MyTextSecondary';
+
+const initialOf = (name) => (name?.[0] || '?').toUpperCase();
 
 const SidebarNotifications = ({ collapsed }) => {
-  const { token } = theme.useToken();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -63,59 +63,6 @@ const SidebarNotifications = ({ collapsed }) => {
     navigate(route);
   };
 
-  const row = (key, gradient, initial, title, sub, ago, onClick) => (
-    <MyFlex
-      gap={12}
-      key={key}
-      align="center"
-      onClick={onClick}
-      style={{
-        cursor: 'pointer',
-        padding: '8px 12px',
-        borderRadius: token.radiusRow,
-      }}
-    >
-      <MyFlexCenter
-        style={{
-          width: 36,
-          height: 36,
-          flexShrink: 0,
-          background: gradient,
-          borderRadius: token.radiusRow,
-        }}
-      >
-        <MyText color={token.colorWhite} fontSize={14} bold>
-          {initial}
-        </MyText>
-      </MyFlexCenter>
-      <MyFlexVertical gap={2} style={{ flex: 1, minWidth: 0 }}>
-        <MyFlex justify="space-between" align="center" gap={8}>
-          <MyText fontSize={13} bold ellipsis>
-            {title}
-          </MyText>
-          {ago && (
-            <MyTextSecondary fontSize={11} style={{ flexShrink: 0 }}>
-              {ago}
-            </MyTextSecondary>
-          )}
-        </MyFlex>
-        <MyTextSecondary fontSize={11} ellipsis>
-          {sub}
-        </MyTextSecondary>
-      </MyFlexVertical>
-      <ChevronDownIcon
-        size={14}
-        style={{
-          flexShrink: 0,
-          transform: 'rotate(-90deg)',
-          color: token.colorTextQuaternary,
-        }}
-      />
-    </MyFlex>
-  );
-
-  const initialOf = (name) => (name?.[0] || '?').toUpperCase();
-
   const content = (
     <MyFlexVertical gap={8} style={{ width: 360 }}>
       <MyFlex
@@ -124,84 +71,91 @@ const SidebarNotifications = ({ collapsed }) => {
         style={{ padding: '4px 12px 0' }}
       >
         <MyText fontSize={16} bold>
-          Notifications
+          {t('common_notifications')}
         </MyText>
         <MyButton
           type="link"
           size="small"
           onClick={() => go('/dashboard/conversations')}
         >
-          Open inbox
+          {t('common_open_inbox')}
         </MyButton>
       </MyFlex>
       {totalUnread === 0 ? (
-        <MyEmpty description="You are up to date" />
+        <MyEmpty description={t('common_up_to_date')} />
       ) : (
         <MyFlexVertical gap={2} style={{ maxHeight: 440, overflowY: 'auto' }}>
-          {assignments.map((a) =>
-            row(
-              `a:${a.id}`,
-              token.notifAssignGradient,
-              initialOf(a.contactName),
-              a.contactName,
-              `${a.assignedByName} assigned`,
-              timeAgo(a.assignedAt),
-              () =>
+          {assignments.map((a) => (
+            <SidebarNotificationRow
+              key={`a:${a.id}`}
+              variant="assign"
+              initial={initialOf(a.contactName)}
+              title={a.contactName}
+              sub={`${a.assignedByName} assigned`}
+              ago={timeAgo(a.assignedAt)}
+              onClick={() =>
                 go(
                   `/dashboard/conversations?channel=${a.channel}&id=${encodeURIComponent(a.conversationId)}`
                 )
-            )
-          )}
-          {mentions.map((m) =>
-            row(
-              `m:${m.id}`,
-              token.notifMentionGradient,
-              initialOf(m.contactName),
-              `${m.mentionedByName} in ${m.contactName}`,
-              m.preview || 'Mentioned you',
-              timeAgo(m.mentionedAt),
-              () =>
+              }
+            />
+          ))}
+          {mentions.map((m) => (
+            <SidebarNotificationRow
+              key={`m:${m.id}`}
+              variant="mention"
+              initial={initialOf(m.contactName)}
+              title={`${m.mentionedByName} in ${m.contactName}`}
+              sub={m.preview || 'Mentioned you'}
+              ago={timeAgo(m.mentionedAt)}
+              onClick={() =>
                 go(
                   `/dashboard/conversations?channel=${m.channel}&id=${encodeURIComponent(m.conversationId)}`
                 )
-            )
-          )}
-          {pending.map((p) =>
-            row(
-              `p:${p.id}`,
-              token.notifMentionGradient,
-              initialOf(p.contactName),
-              p.contactName,
-              'Pending appointment',
-              '',
-              () => go(`/dashboard/calendar?review=${encodeURIComponent(p.id)}`)
-            )
-          )}
-          {cancelled.map((c) =>
-            row(
-              `c:${c.id}`,
-              token.notifCancelGradient,
-              initialOf(c.contactName),
-              c.contactName,
-              'Cancelled appointment',
-              timeAgo(c.cancelledAt),
-              () => go(`/dashboard/calendar?review=${encodeURIComponent(c.id)}`)
-            )
-          )}
-          {unreadChats.map((c) =>
-            row(
-              `h:${c.id}`,
-              token.notifChatGradient,
-              initialOf(c.contactName),
-              c.contactName,
-              c.lastMessagePreview || 'New message',
-              timeAgo(c.lastMessageAt),
-              () =>
+              }
+            />
+          ))}
+          {pending.map((p) => (
+            <SidebarNotificationRow
+              key={`p:${p.id}`}
+              variant="mention"
+              initial={initialOf(p.contactName)}
+              title={p.contactName}
+              sub="Pending appointment"
+              ago=""
+              onClick={() =>
+                go(`/dashboard/calendar?review=${encodeURIComponent(p.id)}`)
+              }
+            />
+          ))}
+          {cancelled.map((c) => (
+            <SidebarNotificationRow
+              key={`c:${c.id}`}
+              variant="cancel"
+              initial={initialOf(c.contactName)}
+              title={c.contactName}
+              sub="Cancelled appointment"
+              ago={timeAgo(c.cancelledAt)}
+              onClick={() =>
+                go(`/dashboard/calendar?review=${encodeURIComponent(c.id)}`)
+              }
+            />
+          ))}
+          {unreadChats.map((c) => (
+            <SidebarNotificationRow
+              key={`h:${c.id}`}
+              variant="chat"
+              initial={initialOf(c.contactName)}
+              title={c.contactName}
+              sub={c.lastMessagePreview || 'New message'}
+              ago={timeAgo(c.lastMessageAt)}
+              onClick={() =>
                 go(
                   `/dashboard/conversations?channel=${c.channel}&id=${encodeURIComponent(c.id)}`
                 )
-            )
-          )}
+              }
+            />
+          ))}
         </MyFlexVertical>
       )}
     </MyFlexVertical>
@@ -216,11 +170,11 @@ const SidebarNotifications = ({ collapsed }) => {
     >
       <div>
         <SidebarRailButton
-          collapsed={collapsed}
           active={open}
-          label="Notifications"
           badge={totalUnread}
+          collapsed={collapsed}
           icon={<BellOutlined />}
+          label={t('common_notifications')}
         />
       </div>
     </MyPopover>

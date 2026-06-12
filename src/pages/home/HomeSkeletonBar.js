@@ -1,15 +1,5 @@
-const HomeSkeletonBar = ({ width, token, opacity = 1 }) => {
-  return (
-    <div
-      style={{
-        width,
-        opacity,
-        height: 10,
-        borderRadius: 6,
-        background: token.colorFillSecondary,
-      }}
-    />
-  );
+const HomeSkeletonBar = ({ width, opacity = 1 }) => {
+  return <div className="h_10 home_skel" style={{ width, opacity }} />;
 };
 
 export default HomeSkeletonBar;

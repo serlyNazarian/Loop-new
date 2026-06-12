@@ -10,10 +10,10 @@ const RegisterStepsSection = ({ step }) => {
       {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
         <div
           key={i}
+          className="h_6"
           style={{
-            height: 6,
             width: step === i + 1 ? 28 : 8,
-            borderRadius: 999,
+            borderRadius: token.borderRadiusPill,
             background:
               i + 1 <= step ? token.colorPrimary : token.colorFillSecondary,
             transition: 'width 200ms ease, background 200ms ease',

@@ -6,6 +6,67 @@
   padding: 8px;
 }
 
+aside.sidebar_sider {
+  z-index: 2;
+  position: relative;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: var(--ant-sidebar-glass);
+}
+
+aside.sidebar_sider::after {
+  content: '';
+  width: 1px;
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  pointer-events: none;
+  background: var(--ant-color-border-secondary);
+}
+
+.sidebar_inner {
+  padding-top: 14px;
+}
+
+.nav_item_featured {
+  background: var(--ant-nav-featured-gradient);
+}
+
+.ws_avatar {
+  box-shadow: var(--ant-ws-avatar-shadow);
+  border-radius: var(--ant-border-radius);
+  background: var(--ant-ws-avatar-gradient);
+}
+
+.nav_active_dot {
+  background: var(--ant-color-primary);
+  box-shadow: var(--ant-nav-active-dot-shadow);
+}
+
+.notif_avatar_assign {
+  background: var(--ant-notif-assign-gradient);
+}
+.notif_avatar_mention {
+  background: var(--ant-notif-mention-gradient);
+}
+.notif_avatar_cancel {
+  background: var(--ant-notif-cancel-gradient);
+}
+.notif_avatar_chat {
+  background: var(--ant-notif-chat-gradient);
+}
+
+.sidebar_row {
+  cursor: pointer;
+  transition:
+    background 150ms,
+    box-shadow 220ms;
+}
+
+.sidebar_row_collapsed {
+  justify-content: center;
+}
+
 .sidebar_scroll::-webkit-scrollbar {
   width: 4px;
 }

@@ -1,3 +1,4 @@
+import { theme } from 'antd';
 import { useState } from 'react';
 import useAuthStore from '../../../stores/authStore';
 import LoginHeaderSection from './LoginHeaderSection';
@@ -18,9 +19,10 @@ import MyInputPasswordItem from '../../../components/myInput/MyInputPasswordItem
 const API_BASE = process.env.REACT_APP_API_BASE_URL || '';
 
 const Login = () => {
-  const [form] = MyForm.useForm();
   const navigate = useNavigate();
   const location = useLocation();
+  const [form] = MyForm.useForm();
+  const { token } = theme.useToken();
 
   const login = useAuthStore((s) => s.login);
 
@@ -95,13 +97,19 @@ const Login = () => {
               justify="space-between"
             >
               <MyFormItem name="rememberMe" valuePropName="checked" noStyle>
-                <MyCheckbox style={{ fontSize: 12, whiteSpace: 'nowrap' }}>
+                <MyCheckbox
+                  style={{ fontSize: token.fontSizeSM, whiteSpace: 'nowrap' }}
+                >
                   Stay signed in for 90 days
                 </MyCheckbox>
               </MyFormItem>
               <MyLink
                 to="/forgot-password"
-                style={{ fontSize: 12, whiteSpace: 'nowrap', flexShrink: 0 }}
+                style={{
+                  flexShrink: 0,
+                  whiteSpace: 'nowrap',
+                  fontSize: token.fontSizeSM,
+                }}
               >
                 Forgot password?
               </MyLink>
@@ -117,7 +125,9 @@ const Login = () => {
             </MyButton>
           </MyFlexVertical>
         </MyForm>
-        <MyDivider style={{ fontSize: 11, letterSpacing: '0.08em' }}>
+        <MyDivider
+          style={{ fontSize: token.fontSizeXS, letterSpacing: '0.08em' }}
+        >
           OR SIGN IN WITH
         </MyDivider>
         <SocialLoginButtons

@@ -10,7 +10,7 @@ import MyDividerSmall from '../../../components/myDivider/MyDividerSmall';
 
 const SidebarFooter = ({ collapsed }) => {
   return (
-    <MyFlexVertical gap={2} style={{ flexShrink: 0, padding: 8 }}>
+    <MyFlexVertical gap={2} className="flex_shrink_0" style={{ padding: 8 }}>
       <MyDividerSmall />
       <SidebarProfile collapsed={collapsed} />
       <SidebarNotifications collapsed={collapsed} />

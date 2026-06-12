@@ -1,26 +1,181 @@
-@keyframes home-orb-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+@keyframes home_orb_float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-@keyframes home-orb-rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@keyframes home_orb_rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-@keyframes home-orb-blink {
-  0%, 92%, 100% { transform: scaleY(1); }
-  96% { transform: scaleY(0.08); }
+@keyframes home_orb_blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.08);
+  }
 }
 
-.home-orb-float { animation: home-orb-float 5s ease-in-out infinite; }
-.home-orb-rotate { animation: home-orb-rotate 14s linear infinite; }
-.home-orb-blink-eye { animation: home-orb-blink 5s ease-in-out infinite; }
+.home_orb_root {
+  display: inline-block;
+}
+
+.home_orb_float {
+  position: relative;
+  animation: home_orb_float 5s ease-in-out infinite;
+}
+
+.home_orb_halo {
+  position: absolute;
+  inset: -30%;
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+  background: var(--ant-orb-halo);
+}
+
+.home_orb_body {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: var(--ant-brand-gradient);
+  box-shadow: var(--ant-orb-body-shadow);
+}
+
+.home_orb_sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  background: var(--ant-orb-sheen);
+  animation: home_orb_rotate 14s linear infinite;
+}
+
+.home_orb_highlight {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(8px);
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.home_orb_eyes {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home_orb_eye {
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.92) 100%
+  );
+  box-shadow:
+    0 1px 3px rgba(0, 0, 30, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  animation: home_orb_blink 5s ease-in-out infinite;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .home-orb-float,
-  .home-orb-rotate,
-  .home-orb-blink-eye {
+  .home_orb_float,
+  .home_orb_sheen,
+  .home_orb_eye {
     animation: none;
   }
+}
+
+.home_root {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.home_content {
+  z-index: 1;
+  position: relative;
+}
+
+.home_preview {
+  width: 100%;
+  max-width: 880px;
+}
+
+.home_hero {
+  width: 100%;
+  max-width: 860px;
+  text-align: center;
+}
+
+.home_hero_title {
+  letter-spacing: -0.01em;
+}
+
+.home_hero_sub {
+  max-width: 620px;
+  line-height: 1.6;
+}
+
+.home_skel {
+  border-radius: var(--ant-border-radius-s);
+  background: var(--ant-color-fill-secondary);
+}
+
+.home_bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.home_bg_layer {
+  position: absolute;
+  inset: 0;
+}
+
+.home_bg_base {
+  background-color: var(--ant-home-bg-base);
+}
+
+.home_bg_aurora {
+  background-image: var(--ant-home-aurora);
+}
+
+.home_bg_vignette {
+  background: var(--ant-home-vignette);
+}
+
+.home_bg_dots {
+  background-size: 28px 28px;
+  background-image: var(--ant-home-dot);
+  mask-image: var(--ant-dashboard-dot-mask);
+  -webkit-mask-image: var(--ant-dashboard-dot-mask);
+}
+
+.home_bg_fade {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 128px;
+  background: var(--ant-home-top-fade);
 }

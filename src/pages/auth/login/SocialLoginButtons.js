@@ -9,7 +9,8 @@ const SocialLoginButtons = ({ startGoogle, startEmailLink }) => {
         size="large"
         icon={<GoogleOutlined />}
         onClick={startGoogle}
-        style={{ flex: 1, minWidth: 130 }}
+        className="flex_1"
+        style={{ minWidth: 130 }}
       >
         Google
       </MyButton>
@@ -17,7 +18,8 @@ const SocialLoginButtons = ({ startGoogle, startEmailLink }) => {
         size="large"
         icon={<MailOutlined />}
         onClick={startEmailLink}
-        style={{ flex: 1, minWidth: 130 }}
+        className="flex_1"
+        style={{ minWidth: 130 }}
       >
         Email
       </MyButton>

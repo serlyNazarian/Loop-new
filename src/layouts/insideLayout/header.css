@@ -1,0 +1,14 @@
+header.header_bar {
+  z-index: 1;
+  display: flex;
+  position: relative;
+  align-items: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: var(--ant-header-glass);
+  border-bottom: 1px solid var(--ant-color-border-secondary);
+}
+
+.header_title {
+  letter-spacing: -0.02em;
+}

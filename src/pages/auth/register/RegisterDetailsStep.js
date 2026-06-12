@@ -33,7 +33,7 @@ const RegisterDetailsStep = ({ onBack, onContinue }) => {
         <MyButton
           size="large"
           type="primary"
-          style={{ flex: 1 }}
+          className="flex_1"
           onClick={onContinue}
         >
           Continue

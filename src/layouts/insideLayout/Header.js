@@ -5,44 +5,41 @@ import {
   ArrowLeftOutlined,
   MoonOutlined,
   SunOutlined,
+  GlobalOutlined,
 } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 import { TITLES } from './insideLayoutConstants';
 import MyFlex from '../../components/myFlex/MyFlex';
 import MyText from '../../components/myText/MyText';
 import useWindowSize from '../../hooks/useWindowSize';
 import MyButton from '../../components/myButton/MyButton';
 import { useLocation, useNavigate } from 'react-router-dom';
+import './header.css';
 
 const { Header: AntHeader } = Layout;
 
 const Header = ({ collapsed, dark, onToggleCollapse, onToggleDark }) => {
-  const { token } = theme.useToken();
   const navigate = useNavigate();
+  const { token } = theme.useToken();
   const { pathname } = useLocation();
   const { isMobile } = useWindowSize();
+  const { t, i18n } = useTranslation();
 
-  const headerStyle = {
-    zIndex: 1,
-    display: 'flex',
-    position: 'relative',
-    alignItems: 'center',
-    backdropFilter: 'blur(24px)',
-    WebkitBackdropFilter: 'blur(24px)',
-    padding: isMobile ? '0 12px' : '0 20px',
-    background: dark ? token.headerGlassDark : token.headerGlass,
-    borderBottom: `1px solid ${dark ? token.sidebarBorderDark : token.sidebarBorder}`,
-  };
+  const toggleLanguage = () =>
+    i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar');
+
+  const headerStyle = { padding: isMobile ? '0 12px' : '0 20px' };
 
   return (
-    <AntHeader style={headerStyle}>
-      <MyFlex align="center" gap={8} style={{ flex: 1, minWidth: 0 }}>
+    <AntHeader className="header_bar" style={headerStyle}>
+      <MyFlex align="center" gap={8} className="flex_1 min_w_0">
         <MyButton
           type="text"
           icon={
             collapsed ? (
-              <MenuUnfoldOutlined style={{ fontSize: 20 }} />
+              <MenuUnfoldOutlined style={{ fontSize: token.fontSizeXL }} />
             ) : (
-              <MenuFoldOutlined style={{ fontSize: 20 }} />
+              <MenuFoldOutlined style={{ fontSize: token.fontSizeXL }} />
             )
           }
           onClick={onToggleCollapse}
@@ -54,30 +51,35 @@ const Header = ({ collapsed, dark, onToggleCollapse, onToggleDark }) => {
             icon={<ArrowLeftOutlined />}
             onClick={() => navigate(-1)}
           >
-            {isMobile ? null : 'Back'}
+            {isMobile ? null : t('common_back')}
           </MyButton>
         )}
-        <MyText
-          bold
-          ellipsis
-          fontSize={20}
-          style={{ letterSpacing: '-0.02em' }}
-        >
-          {TITLES[pathname] || 'Dashboard'}
+        <MyText bold ellipsis fontSize={20} className="header_title">
+          {t(TITLES[pathname] || 'nav_dashboard')}
         </MyText>
       </MyFlex>
-      <MyButton
-        type="text"
-        icon={
-          dark ? (
-            <SunOutlined style={{ fontSize: 20 }} />
-          ) : (
-            <MoonOutlined style={{ fontSize: 20 }} />
-          )
-        }
-        onClick={onToggleDark}
-        aria-label="Toggle theme"
-      />
+      <MyFlex align="center" gap={4}>
+        <MyButton
+          type="text"
+          icon={<GlobalOutlined style={{ fontSize: token.fontSizeXL }} />}
+          onClick={toggleLanguage}
+          aria-label="Toggle language"
+        >
+          {isMobile ? null : t('language_toggle')}
+        </MyButton>
+        <MyButton
+          type="text"
+          icon={
+            dark ? (
+              <SunOutlined style={{ fontSize: token.fontSizeXL }} />
+            ) : (
+              <MoonOutlined style={{ fontSize: token.fontSizeXL }} />
+            )
+          }
+          onClick={onToggleDark}
+          aria-label="Toggle theme"
+        />
+      </MyFlex>
     </AntHeader>
   );
 };
