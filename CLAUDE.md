@@ -22,7 +22,7 @@ Create React App · React 19 · plain JavaScript (no TypeScript) · antd v6 · r
 7. **CSS class names use snake_case.** Name custom classes `class_name`, not `class-name` — e.g. `sidebar_scroll`, `nav_sheen`. (Keep bespoke CSS to the permitted cases from rule 2 and rule 8.)
 
 8. **When inline styling piles up, move it to a co-located CSS class.** A few inline `style` props are fine, but once an element's `style={{ ... }}` block grows large or repetitive — lots of static structural/decorative CSS — extract it into a co-located `Component.css` file with a snake_case class and use `className`. Split by what's static vs dynamic: **keep inline** the values computed from props/state (`width: size`, `transform: ...`) and the theme-token values (`background: token.*`); **move to the class** the static structural and decorative CSS (positioning, masks, filters, transitions, and literal colors/gradients/shadows — which also gets those out of JSX where inline colors aren't allowed). The goal is JSX that reads as structure, not a wall of styles. Reference: `pages/home/HomeAiOrb.js` + `pages/home/Home.css`.
-   - **Reach for the global utility classes first.** `src/styles/utilities.css` is a project-wide utility library (snake_case) — `d_flex`, `inline_flex`, `flex_1`, `flex_center`, `flex_shrink_0`, `min_w_0`, `pointer`, `relative`/`absolute`/`fixed`, `overflow_hidden`, `justify_center`/`justify_start`, `w_100`, `text_center`, … Use a `className` from there for common static props instead of inlining them (or adding new CSS). Add a small **feature class** in a co-located CSS file only for a repeated component-specific pattern — e.g. `sidebar_row` / `sidebar_row_collapsed` in `layouts/insideLayout/sidebar/sidebar.css`, used by every sidebar row. Reference: the `Sidebar*` row components (`className="sidebar_row d_flex flex_shrink_0 ..."` + only token/dynamic values inline).
+   - **Reach for the global utility classes first.** `src/styles/utilities.css` is a project-wide utility library (snake_case) — `d_flex`, `inline_flex`, `flex_1`, `flex_center`, `flex_shrink_0`, `min_w_0`, `pointer`, `relative`/`absolute`/`fixed`, `overflow_hidden`, `justify_center`/`justify_start`, `w_100`, `text_center`, … Use a `className` from there for common static props instead of inlining them (or adding new CSS). **Never author a bespoke single-property class for something a utility already provides** — if you find yourself writing `.my_thing { cursor: pointer }`, delete it and use `className="pointer"` instead (same for `display: flex` → `d_flex`, `position: relative` → `relative`, etc.); only the dynamic/token values stay component-specific. Add a small **feature class** in a co-located CSS file only for a repeated component-specific pattern — e.g. `sidebar_row` / `sidebar_row_collapsed` in `layouts/insideLayout/sidebar/sidebar.css`, used by every sidebar row. Reference: the `Sidebar*` row components (`className="sidebar_row d_flex flex_shrink_0 ..."` + only token/dynamic values inline).
 
 ## Colors and sizing
 
@@ -70,6 +70,30 @@ const MySelect = ({ size = 'large', ...otherProps }) => {
 export default MySelect;
 ```
 
+## Icons
+
+- SVG icons live in `src/components/icons/` and are **always named with the `SVG` prefix** — `SVGPlus`, `SVGChevronDown`, `SVGLoop` (never `PlusIcon` / `ChevronDownIcon`). The filename matches the component name (`SVGPlus.js`).
+- Each file holds the raw markup in an inner `SVGIcon` and exports the `SVG<Name>` wrapped in `MyIcon`, memoized:
+
+```jsx
+import { memo } from 'react';
+import MyIcon from '../myIcon/MyIcon';
+
+const SVGIcon = ({ size }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path d="..." />
+  </svg>
+);
+
+const SVGPlus = ({ ...otherProps }) => (
+  <MyIcon size={16} icon={<SVGIcon />} {...otherProps} />
+);
+
+export default memo(SVGPlus);
+```
+
+- `MyIcon` supplies the default `size` and clones the inner svg. Keep `stroke="currentColor"` / `fill="currentColor"` in the raw svg so the icon inherits its context color (white inside a primary button, muted inside a `Select`, etc.). If an icon should instead be theme-colored regardless of context, have the inner `SVGIcon` apply the injected `color` prop (e.g. `fill={color}`).
+
 ## Data, state, routing
 
 - **Network:** define API calls in `src/actions/<domain>Actions.js` (which call `apiClient`); components/stores import and call those actions — never call `apiClient`/`fetch` directly from a component, page, or store. `src/utils/apiClient.js` (`api.get/post/patch/put/del`) is the transport the actions use, and the only place `fetch` is called.
@@ -94,11 +118,20 @@ src/
 
 ## Page pattern
 
-`'use client'` does not exist here — never add it. Fetch in an effect via an action (see **Network** above), hold in local state or a store, render with `My*` components, and handle loading / error / empty states explicitly (`Spin`, `MyEmpty`). Compose layout with `MyFlex` gaps. Match `src/pages/dashboard/Dashboard.js` as the reference.
+`'use client'` does not exist here — never add it. Fetch in an effect via an action (see **Network** above), hold in local state or a store, render with `My*` components, and handle loading / error / empty states explicitly (`MySpinner` / `MyLoader`, `MyEmpty` — see **Loading states**). Compose layout with `MyFlex` gaps. Match `src/pages/dashboard/Dashboard.js` as the reference.
 
 **Multi-step / multi-state pages — decompose into a folder.** When a page has more than one screen state (wizard steps, a `done`/success screen, an empty / error / `no-data` state, etc.), put it in a folder `src/pages/<area>/<page>/`. The orchestrator `<Page>.js` owns the state, effects, and action calls, and only decides which state/section to render. Each distinct screen-state branch — every early-return like `if (!email) return <VerifyNoEmail/>` — is its own presentational component that contains its own card + markup. Extract reusable sections the same way (e.g. the page header as `<Page>HeaderSection`).
 
 **Props vs self-contained, and when to stop.** Pass orchestrator-owned data/handlers down as props, but when a state's behaviour is fully self-contained (e.g. a single `navigate('/login')`), let that component use the hook directly instead of threading a callback prop — keep prop interfaces narrow. Only keep a piece inline in the orchestrator when extracting it would create a wide prop list (many values threaded just to render) with no clean boundary; the goal is small, focused files without prop-threading churn. Reference: `pages/auth/register/` (orchestrator + header/steps sections + step components + constants), `pages/auth/forgotPassword/` (3 states), `pages/auth/verify/` (orchestrator + `VerifyHeaderSection` + self-contained `VerifyNoEmail`, primary state inline).
+
+## Loading states
+
+Two loaders, picked by scope:
+
+- **`MyLoader`** — the full-screen branded loader (animated Loop logo). Use it **only for page / route-level** loading: lazy-route `Suspense` fallbacks, `RequireAuth`, and whole-page loads (it's already wired into the layout's route `Suspense`). Pass `fullScreen` for the centered full-viewport variant.
+- **`MySpinner`** — the lightweight inline spinner. Use it for **everything smaller** that loads while the rest of the page is already on screen: a card, a stat grid, a section, a list/table body, a panel mid-fetch. Reference: the dashboard stat cards (`pages/dashboard/Dashboard.js`) render `<MySpinner />` while the snapshot loads.
+
+Never drop the big logo `MyLoader` inside a card or section — that's what `MySpinner` is for.
 
 ## Responsiveness
 

@@ -9,7 +9,7 @@ import useWorkspaceStore from '../../../stores/workspaceStore';
 import MyDropdown from '../../../components/myDropdown/MyDropdown';
 import MyFlexCenter from '../../../components/myFlex/MyFlexCenter';
 import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
-import ChevronDownIcon from '../../../components/icons/ChevronDownIcon';
+import SVGChevronDown from '../../../components/icons/SVGChevronDown';
 import MyTextSecondary from '../../../components/myText/MyTextSecondary';
 
 const SidebarWorkspaceSwitcher = ({ collapsed }) => {
@@ -103,7 +103,7 @@ const SidebarWorkspaceSwitcher = ({ collapsed }) => {
         >
           {avatarTile((active?.name?.[0] || 'W').toUpperCase(), 28)}
           {rows(active, true)}
-          <ChevronDownIcon
+          <SVGChevronDown
             size={14}
             className="flex_shrink_0"
             style={{

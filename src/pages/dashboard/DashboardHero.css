@@ -1,0 +1,50 @@
+.dashboard_hero {
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--ant-border-radius-xxl);
+  background-color: hsla(0, 0%, 100%, 0.78);
+  border: 1.5px solid rgba(91, 0, 253, 0.18);
+  box-shadow:
+    rgba(91, 0, 253, 0.04) 0px 0px 0px 4px,
+    rgba(0, 102, 255, 0.18) 0px 8px 32px -8px,
+    rgba(0, 0, 0, 0.04) 0px 1px 4px !important;
+}
+
+.dashboard_hero .ant-card-body {
+  padding: 24px 28px;
+}
+
+.dark .dashboard_hero {
+  background-color: hsla(0, 0%, 100%, 0.04);
+}
+
+.dashboard_hero::before {
+  inset: 0;
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 70% 100% at 8% 0%,
+      rgba(0, 102, 255, 0.1) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 100% at 95% 100%,
+      rgba(91, 0, 253, 0.1) 0%,
+      transparent 60%
+    );
+}
+
+.dashboard_hero_content {
+  position: relative;
+}
+
+.dashboard_hero_dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-inline-end: 6px;
+  background: currentColor;
+}

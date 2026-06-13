@@ -1,4 +1,5 @@
 import { theme } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { CheckOutlined } from '@ant-design/icons';
 import MyForm from '../../../components/myForm/MyForm';
 import MyText from '../../../components/myText/MyText';
@@ -13,6 +14,7 @@ import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
 import MyInputPasswordItem from '../../../components/myInput/MyInputPasswordItem';
 
 const RegisterAccountStep = ({ form, onContinue }) => {
+  const { t } = useTranslation();
   const { token } = theme.useToken();
 
   const values = MyForm.useWatch([], form) || {};
@@ -34,15 +36,15 @@ const RegisterAccountStep = ({ form, onContinue }) => {
       <MyFlex gap={12} wrap="wrap">
         <MyInputItem
           name="firstName"
-          label="First name"
-          rules={[{ required: true, message: 'Enter your first name' }]}
+          label={t('register_first_name_label')}
+          rules={[{ required: true, message: t('register_first_name_required') }]}
           placeholder="Jane"
           autoComplete="given-name"
           formItemProps={{ style: { flex: 1, minWidth: 140 } }}
         />
         <MyInputItem
           name="lastName"
-          label="Last name"
+          label={t('register_last_name_label')}
           placeholder="Smith"
           autoComplete="family-name"
           formItemProps={{ style: { flex: 1, minWidth: 140 } }}
@@ -50,12 +52,12 @@ const RegisterAccountStep = ({ form, onContinue }) => {
       </MyFlex>
       <MyInputItem
         name="email"
-        label="Email"
+        label={t('register_email_label')}
         rules={[
           {
             required: true,
             type: 'email',
-            message: 'Enter a valid email address',
+            message: t('register_email_invalid'),
           },
         ]}
         placeholder="you@company.com"
@@ -64,12 +66,12 @@ const RegisterAccountStep = ({ form, onContinue }) => {
       <MyFlexVertical gap={8}>
         <MyInputPasswordItem
           name="password"
-          label="Password"
+          label={t('register_password_label')}
           rules={[
-            { required: true, message: 'Create a password' },
-            { min: 8, message: 'At least 8 characters' },
+            { required: true, message: t('register_password_required') },
+            { min: 8, message: t('register_password_min') },
           ]}
-          placeholder="Create a password"
+          placeholder={t('register_password_placeholder')}
           autoComplete="new-password"
         />
         <RegisterPasswordStrength password={password} />
@@ -77,18 +79,20 @@ const RegisterAccountStep = ({ form, onContinue }) => {
       <MyFlexVertical gap={6}>
         <MyInputPasswordItem
           name="confirm"
-          label="Confirm password"
+          label={t('register_confirm_password_label')}
           rules={[
-            { required: true, message: 'Confirm your password' },
+            { required: true, message: t('register_confirm_password_required') },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('password') === value)
                   return Promise.resolve();
-                return Promise.reject(new Error('Passwords do not match'));
+                return Promise.reject(
+                  new Error(t('register_passwords_do_not_match'))
+                );
               },
             }),
           ]}
-          placeholder="Re-enter your password"
+          placeholder={t('register_confirm_password_placeholder')}
           autoComplete="new-password"
         />
         {confirm && (
@@ -103,8 +107,8 @@ const RegisterAccountStep = ({ form, onContinue }) => {
               color={passwordsMatch ? token.pwCheckOk : token.colorError}
             >
               {passwordsMatch
-                ? 'Passwords match'
-                : "Passwords don't match yet."}
+                ? t('register_passwords_match')
+                : t('register_passwords_not_match_yet')}
             </MyText>
           </MyFlex>
         )}
@@ -118,15 +122,15 @@ const RegisterAccountStep = ({ form, onContinue }) => {
               value
                 ? Promise.resolve()
                 : Promise.reject(
-                    new Error('Please accept the terms to continue')
+                    new Error(t('register_terms_required'))
                   ),
           },
         ]}
       >
         <MyCheckbox style={{ fontSize: token.fontSizeMD }}>
-          I agree to the{' '}
+          {t('register_agree_to')}{' '}
           <MyLink to="/terms" underline fontSize={13}>
-            Terms &amp; Conditions
+            {t('register_terms_and_conditions')}
           </MyLink>
         </MyCheckbox>
       </MyFormItem>
@@ -137,7 +141,7 @@ const RegisterAccountStep = ({ form, onContinue }) => {
         onClick={onContinue}
         disabled={!step1Filled}
       >
-        Continue
+        {t('register_continue')}
       </MyButton>
     </MyFlexVertical>
   );

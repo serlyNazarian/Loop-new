@@ -10,7 +10,7 @@ import {
   BarChartOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
-import LoopIcon from '../../components/icons/LoopIcon';
+import SVGLoop from '../../components/icons/SVGLoop';
 
 export const NAV = [
   {
@@ -18,7 +18,7 @@ export const NAV = [
     label: 'nav_loop',
     perm: 'insights',
     featured: true,
-    icon: <LoopIcon />,
+    icon: <SVGLoop />,
   },
   {
     key: '/dashboard',

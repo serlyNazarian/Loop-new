@@ -3,10 +3,14 @@ const now = Date.now();
 const minsAgo = (m) => new Date(now - m * MS_PER_MIN).toISOString();
 
 export const mockOverview = {
-  totalConversations: 0,
-  totalContacts: 0,
-  aiReplies: 0,
-  resolved: 0,
+  conversations: 0,
+  messages: 0,
+  bookings: 5,
+  customers: 0,
+  pendingCount: 0,
+  cancelledTodayCount: 2,
+  waitingHandoffCount: 0,
+  todayCount: 2,
 };
 
 export const mockUser = {

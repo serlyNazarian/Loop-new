@@ -1,20 +1,16 @@
-import { useEffect, useState } from 'react';
-import {
-  MessageOutlined,
-  ContactsOutlined,
-  RobotOutlined,
-  CheckCircleOutlined,
-} from '@ant-design/icons';
+import { Row, Col, Alert } from 'antd';
 import api from '../../utils/apiClient';
-import { Row, Col, Spin, Alert } from 'antd';
+import { useEffect, useState } from 'react';
+import DashboardHero from './DashboardHero';
 import { useTranslation } from 'react-i18next';
 import useAuthStore from '../../stores/authStore';
-import MyFlexCenter from '../../components/myFlex/MyFlexCenter';
-import MyPageHeader from '../../components/myPageHeader/MyPageHeader';
+import MySpinner from '../../components/mySpinner/MySpinner';
+import MyFlexVertical from '../../components/myFlex/MyFlexVertical';
 import MyCardStatistic from '../../components/myCardStatistic/MyCardStatistic';
 
 const Dashboard = () => {
   const { t } = useTranslation();
+
   const user = useAuthStore((s) => s.user);
 
   const [error, setError] = useState(null);
@@ -44,54 +40,37 @@ const Dashboard = () => {
     {
       key: 'conversations',
       label: t('dashboard_conversations'),
-      icon: <MessageOutlined />,
-      value: snapshot?.totalConversations,
+      value: snapshot?.conversations,
     },
     {
-      key: 'contacts',
-      label: t('dashboard_contacts'),
-      icon: <ContactsOutlined />,
-      value: snapshot?.totalContacts,
+      key: 'messages',
+      label: t('dashboard_messages'),
+      value: snapshot?.messages,
     },
     {
-      key: 'aiReplies',
-      label: t('dashboard_ai_replies'),
-      icon: <RobotOutlined />,
-      value: snapshot?.aiReplies,
+      key: 'bookings',
+      label: t('dashboard_bookings'),
+      value: snapshot?.bookings,
     },
     {
-      key: 'resolved',
-      label: t('dashboard_resolved'),
-      icon: <CheckCircleOutlined />,
-      value: snapshot?.resolved,
+      key: 'customers',
+      label: t('dashboard_customers'),
+      value: snapshot?.customers,
     },
   ];
 
   return (
-    <>
-      <MyPageHeader
-        title={t('dashboard_welcome', { name: firstName })}
-        subtitle={t('dashboard_subtitle')}
-      />
-      {error && (
-        <Alert
-          showIcon
-          type="error"
-          message={error}
-          style={{ marginBottom: 16 }}
-        />
-      )}
+    <MyFlexVertical gap={20}>
+      <DashboardHero name={firstName} snapshot={snapshot} />
+      {error && <Alert showIcon type="error" message={error} />}
       {loading ? (
-        <MyFlexCenter style={{ minHeight: '15vh' }}>
-          <Spin size="large" />
-        </MyFlexCenter>
+        <MySpinner />
       ) : (
         <Row gutter={[16, 16]}>
           {stats?.map((s) => (
             <Col xs={24} sm={12} lg={6} key={s.key}>
               <MyCardStatistic
                 title={s.label}
-                prefix={s.icon}
                 value={s.value ?? 0}
                 cardProps={{ variant: 'outlined' }}
               />
@@ -99,7 +78,7 @@ const Dashboard = () => {
           ))}
         </Row>
       )}
-    </>
+    </MyFlexVertical>
   );
 };
 

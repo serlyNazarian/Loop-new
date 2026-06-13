@@ -1,4 +1,7 @@
-const LoopIcon = ({ size = 18, ...otherProps }) => (
+import { memo } from 'react';
+import MyIcon from '../myIcon/MyIcon';
+
+const SVGIcon = ({ size }) => (
   <svg
     width={size}
     height={size}
@@ -7,7 +10,6 @@ const LoopIcon = ({ size = 18, ...otherProps }) => (
     stroke="currentColor"
     strokeWidth={28}
     strokeMiterlimit={10}
-    {...otherProps}
   >
     <path d="M196.8,499.92h131.99c88.05,0,159.42-71.38,159.42-159.42v-131.99c0-29.93-8.35-57.86-22.73-81.76-4.84-8.04-3.27-18.34,3.93-24.37l36.59-30.66c9.17-7.69,3.74-22.63-8.23-22.63h-168.98s-52.28,0-52.28,0h-79.71c-88.05,0-159.42,71.38-159.42,159.42v131.99c0,88.05,71.38,159.42,159.42,159.42Z" />
     <rect
@@ -35,4 +37,8 @@ const LoopIcon = ({ size = 18, ...otherProps }) => (
   </svg>
 );
 
-export default LoopIcon;
+const SVGLoop = ({ ...otherProps }) => (
+  <MyIcon size={18} icon={<SVGIcon />} {...otherProps} />
+);
+
+export default memo(SVGLoop);

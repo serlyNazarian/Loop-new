@@ -1,8 +1,8 @@
 .cal_panel {
   padding: 8px 16px 16px;
   background: var(--ant-color-bg-container);
-  border: 1px solid var(--ant-color-border-secondary);
   border-radius: var(--ant-border-radius-xl);
+  border: 1px solid var(--ant-color-border-secondary);
   box-shadow: 0 20px 60px -28px rgba(40, 10, 80, 0.18);
 }
 
@@ -44,8 +44,8 @@
   font-size: 20px;
   align-items: center;
   justify-content: center;
-  border-radius: var(--ant-border-radius-l);
   color: var(--ant-color-text-secondary);
+  border-radius: var(--ant-border-radius-l);
   background: var(--ant-color-fill-secondary);
 }
 
@@ -56,10 +56,10 @@
 
 .appt_row {
   display: flex;
-  flex-direction: column;
   gap: 2px;
   padding: 12px;
   cursor: pointer;
+  flex-direction: column;
   border-radius: var(--ant-border-radius-l);
   border: 1px solid var(--ant-color-border-secondary);
   transition:
@@ -73,6 +73,6 @@
 }
 
 .appt_detail_label {
-  text-transform: uppercase;
   letter-spacing: 0.06em;
+  text-transform: uppercase;
 }

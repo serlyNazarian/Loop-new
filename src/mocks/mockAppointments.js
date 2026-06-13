@@ -102,7 +102,7 @@ export const appointmentHandlers = (method, path) => {
     return () => {
       const a = byId(id);
       if (a) a.status = 'confirmed';
-      return { id, status: 'confirmed' };
+      return { id, status: 'confirmed', customerNotified: true };
     };
   if (action === '/decline' && method === 'POST')
     return (body) => {
@@ -111,7 +111,7 @@ export const appointmentHandlers = (method, path) => {
         a.status = 'cancelled';
         a.cancelReason = body?.reason || 'Declined';
       }
-      return { id, status: 'cancelled' };
+      return { id, status: 'cancelled', customerNotified: true };
     };
   if (method === 'PATCH')
     return (body) => {

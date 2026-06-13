@@ -1,4 +1,5 @@
 import { theme } from 'antd';
+import { useTranslation } from 'react-i18next';
 import MyText from '../../../components/myText/MyText';
 import MyLink from '../../../components/myLink/MyLink';
 import MyForm from '../../../components/myForm/MyForm';
@@ -11,15 +12,16 @@ import MyTextSecondary from '../../../components/myText/MyTextSecondary';
 import MyCardTransparent from '../../../components/myCard/MyCardTransparent';
 
 const ForgotPasswordEmailStep = ({ form, loading, error, onFinish }) => {
+  const { t } = useTranslation();
   const { token } = theme.useToken();
 
   return (
     <MyCardTransparent styles={{ body: { padding: 0 } }}>
       <MyFlexVertical gap={24}>
         <MyFlexVertical gap={4}>
-          <MyTextGradient>Forgot password?</MyTextGradient>
+          <MyTextGradient>{t('forgot_title')}</MyTextGradient>
           <MyTextSecondary fontSize={16}>
-            Enter your email and we'll send you a 6-digit reset code.
+            {t('forgot_email_subtitle')}
           </MyTextSecondary>
         </MyFlexVertical>
         {error && (
@@ -36,12 +38,12 @@ const ForgotPasswordEmailStep = ({ form, loading, error, onFinish }) => {
           <MyFlexVertical gap={18}>
             <MyInputItem
               name="email"
-              label="Email"
+              label={t('forgot_email_label')}
               rules={[
                 {
                   required: true,
                   type: 'email',
-                  message: 'Enter a valid email address',
+                  message: t('forgot_email_invalid'),
                 },
               ]}
               placeholder="you@company.com"
@@ -54,13 +56,13 @@ const ForgotPasswordEmailStep = ({ form, loading, error, onFinish }) => {
               htmlType="submit"
               loading={loading}
             >
-              Send reset code
+              {t('forgot_send_code')}
             </MyButton>
           </MyFlexVertical>
         </MyForm>
         <MyFlexCenter>
           <MyLink to="/login" fontSize={14}>
-            Back to sign in
+            {t('forgot_back_to_sign_in')}
           </MyLink>
         </MyFlexCenter>
       </MyFlexVertical>

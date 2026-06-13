@@ -5,7 +5,8 @@ import UtilDate from '../../../utils/UtilDate';
 import MyTag from '../../../components/myTag/MyTag';
 import MyText from '../../../components/myText/MyText';
 import MyFlex from '../../../components/myFlex/MyFlex';
-import PlusIcon from '../../../components/icons/PlusIcon';
+import useWindowSize from '../../../hooks/useWindowSize';
+import SVGPlus from '../../../components/icons/SVGPlus';
 import MyButton from '../../../components/myButton/MyButton';
 import MyDrawer from '../../../components/myDrawer/MyDrawer';
 import { CalendarOutlined, CloseOutlined } from '@ant-design/icons';
@@ -34,6 +35,8 @@ const CalendarDayDrawer = ({
 }) => {
   const { t } = useTranslation();
   const { token } = theme.useToken();
+  const { isMobile } = useWindowSize();
+
   const items = list || [];
 
   const title = (
@@ -57,13 +60,14 @@ const CalendarDayDrawer = ({
       placement="right"
       onClose={onClose}
       afterOpenChange={afterOpenChange}
-      styles={{ wrapper: { width: '100%' } }}
+      focusable={{ focusTriggerAfterClose: false }}
+      styles={{ wrapper: { width: isMobile ? '100%' : 400 } }}
       extra={
         <MyButton
           type="text"
           size="small"
           onClick={onClose}
-          aria-label="Close"
+          aria-label={t('cal_close')}
           icon={<CloseOutlined />}
         />
       }
@@ -99,7 +103,7 @@ const CalendarDayDrawer = ({
               {t('cal_empty_desc')}
             </MyTextSecondary>
           </MyFlexVertical>
-          <MyButton type="primary" icon={<PlusIcon />} onClick={onCreate}>
+          <MyButton type="primary" icon={<SVGPlus />} onClick={onCreate}>
             {t('cal_new_appointment')}
           </MyButton>
         </MyFlexVertical>

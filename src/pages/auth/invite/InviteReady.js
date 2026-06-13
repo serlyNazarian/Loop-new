@@ -1,4 +1,5 @@
 import { theme } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import MyText from '../../../components/myText/MyText';
 import MyFlex from '../../../components/myFlex/MyFlex';
@@ -10,11 +11,16 @@ import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
 import MyTextSecondary from '../../../components/myText/MyTextSecondary';
 import MyCardTransparent from '../../../components/myCard/MyCardTransparent';
 
-const ROLE_LABEL = { admin: 'Admin', agent: 'Agent' };
-
 const InviteReady = ({ invite, onAccept, onDecline }) => {
+  const { t } = useTranslation();
   const { token } = theme.useToken();
+
   const initial = invite.workspaceName.charAt(0).toUpperCase();
+
+  const roleLabel =
+    { admin: t('invite_role_admin'), agent: t('invite_role_agent') }[
+      invite.role
+    ] || t('invite_role_member');
 
   return (
     <MyCardTransparent styles={{ body: { padding: 0 } }}>
@@ -30,12 +36,11 @@ const InviteReady = ({ invite, onAccept, onDecline }) => {
           >
             {initial}
           </MyAvatar>
-          <MyText fontSize={26}>You've been invited</MyText>
+          <MyText fontSize={26}>{t('invite_youve_been_invited')}</MyText>
           <MyTextSecondary fontSize={15} className="text_center">
-            {invite.inviterName} invited you to join their workspace.
+            {t('invite_inviter_sentence', { inviterName: invite.inviterName })}
           </MyTextSecondary>
         </MyFlexVertical>
-
         <MyFlex
           align="center"
           gap={12}
@@ -55,13 +60,14 @@ const InviteReady = ({ invite, onAccept, onDecline }) => {
             <MyText fontSize={14} bold ellipsis>
               {invite.workspaceName}
             </MyText>
-            <MyTextSecondary fontSize={11}>Loop workspace</MyTextSecondary>
+            <MyTextSecondary fontSize={11}>
+              {t('invite_loop_workspace')}
+            </MyTextSecondary>
           </MyFlexVertical>
           <MyText color={token.colorPrimary} fontSize={11} bold>
-            {ROLE_LABEL[invite.role] || 'Member'}
+            {roleLabel}
           </MyText>
         </MyFlex>
-
         <MyFlexVertical gap={10}>
           <MyButton
             block
@@ -71,19 +77,18 @@ const InviteReady = ({ invite, onAccept, onDecline }) => {
             iconPosition="end"
             onClick={onAccept}
           >
-            Accept invite
+            {t('invite_accept')}
           </MyButton>
           <MyButton block size="large" onClick={onDecline}>
-            Decline
+            {t('invite_decline')}
           </MyButton>
         </MyFlexVertical>
-
         <MyFlexCenter gap={5}>
           <MyTextSecondary fontSize={12}>
-            Signed in as {invite.email}.
+            {t('invite_signed_in_as', { email: invite.email })}
           </MyTextSecondary>
           <MyLink to="/login" fontSize={12}>
-            Switch account
+            {t('invite_switch_account')}
           </MyLink>
         </MyFlexCenter>
       </MyFlexVertical>

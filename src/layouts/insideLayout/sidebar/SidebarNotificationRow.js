@@ -3,7 +3,7 @@ import MyFlex from '../../../components/myFlex/MyFlex';
 import MyText from '../../../components/myText/MyText';
 import MyFlexCenter from '../../../components/myFlex/MyFlexCenter';
 import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
-import ChevronDownIcon from '../../../components/icons/ChevronDownIcon';
+import SVGChevronDown from '../../../components/icons/SVGChevronDown';
 import MyTextSecondary from '../../../components/myText/MyTextSecondary';
 
 const SidebarNotificationRow = ({
@@ -47,7 +47,7 @@ const SidebarNotificationRow = ({
           {sub}
         </MyTextSecondary>
       </MyFlexVertical>
-      <ChevronDownIcon
+      <SVGChevronDown
         size={14}
         className="flex_shrink_0"
         style={{

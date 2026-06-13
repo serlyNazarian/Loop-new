@@ -3,7 +3,7 @@ import UtilDate from '../../../utils/UtilDate';
 import MyFlex from '../../../components/myFlex/MyFlex';
 import MyText from '../../../components/myText/MyText';
 import MyButton from '../../../components/myButton/MyButton';
-import ChevronDownIcon from '../../../components/icons/ChevronDownIcon';
+import SVGChevronDown from '../../../components/icons/SVGChevronDown';
 
 const CalendarHeader = ({ value, onChange }) => {
   const { t } = useTranslation();
@@ -17,10 +17,10 @@ const CalendarHeader = ({ value, onChange }) => {
         <MyButton
           type="text"
           size="small"
-          aria-label="Previous month"
+          aria-label={t('cal_prev_month')}
           onClick={() => onChange(UtilDate.prevMonth(value))}
           icon={
-            <ChevronDownIcon size={14} style={{ transform: 'rotate(90deg)' }} />
+            <SVGChevronDown size={14} style={{ transform: 'rotate(90deg)' }} />
           }
         />
         <MyButton type="text" size="small" onClick={() => onChange(UtilDate.now())}>
@@ -29,10 +29,10 @@ const CalendarHeader = ({ value, onChange }) => {
         <MyButton
           type="text"
           size="small"
-          aria-label="Next month"
+          aria-label={t('cal_next_month')}
           onClick={() => onChange(UtilDate.nextMonth(value))}
           icon={
-            <ChevronDownIcon
+            <SVGChevronDown
               size={14}
               style={{ transform: 'rotate(-90deg)' }}
             />

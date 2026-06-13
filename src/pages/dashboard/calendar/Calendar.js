@@ -1,3 +1,4 @@
+import { App } from 'antd';
 import UtilCalendar from './UtilCalendar';
 import CalendarHeader from './CalendarHeader';
 import { statusOf } from './calendarConstants';
@@ -7,7 +8,7 @@ import CalendarDayDrawer from './CalendarDayDrawer';
 import MyTag from '../../../components/myTag/MyTag';
 import CalendarCreateModal from './CalendarCreateModal';
 import MyAlert from '../../../components/myAlert/MyAlert';
-import PlusIcon from '../../../components/icons/PlusIcon';
+import SVGPlus from '../../../components/icons/SVGPlus';
 import MyButton from '../../../components/myButton/MyButton';
 import CalendarAppointmentModal from './CalendarAppointmentModal';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -25,6 +26,7 @@ import './calendar.css';
 
 const Calendar = () => {
   const { t } = useTranslation();
+  const { notification } = App.useApp();
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -126,6 +128,15 @@ const Calendar = () => {
     load(false);
   };
 
+  const warnIfNotNotified = (res, descKey) => {
+    if (res && res.customerNotified === false) {
+      notification.warning({
+        title: t('cal_notify_failed_title'),
+        description: t(descKey),
+      });
+    }
+  };
+
   const subtitle = loading
     ? t('cal_loading')
     : monthCount === 0
@@ -140,7 +151,7 @@ const Calendar = () => {
         actions={
           <MyButton
             type="primary"
-            icon={<PlusIcon />}
+            icon={<SVGPlus />}
             onClick={() => openCreate(null)}
           >
             {t('cal_new_appointment')}
@@ -188,12 +199,14 @@ const Calendar = () => {
         appointment={selectedAppt}
         onClose={() => setSelectedAppt(null)}
         onApprove={async () => {
-          await approveAppointment(selectedAppt.id);
+          const res = await approveAppointment(selectedAppt.id);
           afterChange();
+          warnIfNotNotified(res, 'cal_notify_failed_approve');
         }}
-        onDecline={async () => {
-          await declineAppointment(selectedAppt.id);
+        onDecline={async (reason) => {
+          const res = await declineAppointment(selectedAppt.id, reason);
           afterChange();
+          warnIfNotNotified(res, 'cal_notify_failed_decline');
         }}
         onCancel={async () => {
           await updateAppointment(selectedAppt.id, {

@@ -1,4 +1,5 @@
 import { theme } from 'antd';
+import { useTranslation } from 'react-i18next';
 import MyText from '../../../components/myText/MyText';
 import MyForm from '../../../components/myForm/MyForm';
 import MyFlex from '../../../components/myFlex/MyFlex';
@@ -15,8 +16,11 @@ const ForgotPasswordPasswordStep = ({
   loading,
   onFinish,
 }) => {
+  const { t } = useTranslation();
   const { token } = theme.useToken();
+
   const values = MyForm.useWatch([], form) || {};
+
   const passwordsMatch = Boolean(
     values.password && values.confirm && values.password === values.confirm
   );
@@ -25,18 +29,16 @@ const ForgotPasswordPasswordStep = ({
     <MyCardTransparent styles={{ body: { padding: 0 } }}>
       <MyFlexVertical gap={24}>
         <MyFlexVertical gap={4}>
-          <MyText fontSize={34}>Set a new password</MyText>
+          <MyText fontSize={34}>{t('forgot_set_password_title')}</MyText>
           <MyTextSecondary fontSize={15}>
-            Choose a new password for your account.
+            {t('forgot_set_password_subtitle')}
           </MyTextSecondary>
         </MyFlexVertical>
-
         {error && (
           <MyText color={token.colorError} fontSize={13}>
             {error}
           </MyText>
         )}
-
         <MyForm
           form={form}
           layout="vertical"
@@ -46,43 +48,48 @@ const ForgotPasswordPasswordStep = ({
           <MyFlexVertical gap={18}>
             <MyInputPasswordItem
               name="password"
-              label="New password"
+              label={t('forgot_new_password_label')}
               rules={[
-                { required: true, message: 'Enter a new password' },
+                { required: true, message: t('forgot_new_password_required') },
                 {
                   min: 8,
-                  message: 'Please lengthen this text to 8 characters or more.',
+                  message: t('forgot_password_min_length'),
                 },
               ]}
-              placeholder="Enter your new password"
+              placeholder={t('forgot_new_password_placeholder')}
               autoComplete="new-password"
               formItemProps={{
                 extra: (
                   <MyTextSecondary fontSize={12}>
-                    At least 8 characters.
+                    {t('forgot_password_min_hint')}
                   </MyTextSecondary>
                 ),
               }}
             />
             <MyInputPasswordItem
               name="confirm"
-              label="Confirm password"
+              label={t('forgot_confirm_password_label')}
               rules={[
-                { required: true, message: 'Confirm your password' },
+                {
+                  required: true,
+                  message: t('forgot_confirm_password_required'),
+                },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
                     if (!value || getFieldValue('password') === value)
                       return Promise.resolve();
-                    return Promise.reject(new Error('Passwords do not match'));
+                    return Promise.reject(
+                      new Error(t('forgot_passwords_mismatch'))
+                    );
                   },
                 }),
               ]}
-              placeholder="Re-enter your new password"
+              placeholder={t('forgot_confirm_password_placeholder')}
               autoComplete="new-password"
             />
             <MyFlex gap={12}>
               <MyButton size="large" onClick={onBack}>
-                Back
+                {t('forgot_back')}
               </MyButton>
               <MyButton
                 size="large"
@@ -92,7 +99,7 @@ const ForgotPasswordPasswordStep = ({
                 disabled={!passwordsMatch}
                 className="flex_1"
               >
-                Reset password
+                {t('forgot_reset_password')}
               </MyButton>
             </MyFlex>
           </MyFlexVertical>

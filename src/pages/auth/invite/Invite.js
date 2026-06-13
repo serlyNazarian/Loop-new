@@ -1,5 +1,6 @@
 import InviteReady from './InviteReady';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import InviteStatusCard from './InviteStatusCard';
 import { getMe } from '../../../actions/authActions';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -10,6 +11,7 @@ import {
 } from '../../../actions/workspaceActions';
 
 const Invite = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { token: inviteToken } = useParams();
 
@@ -35,33 +37,33 @@ const Invite = () => {
       } catch (err) {
         if (cancelled) return;
         setState('error');
-        setErrorMsg(err.message || 'This invite is invalid or has expired.');
+        setErrorMsg(err.message || t('invite_error_invalid_or_expired'));
       }
     };
     init();
     return () => {
       cancelled = true;
     };
-  }, [inviteToken, navigate]);
+  }, [inviteToken, navigate, t]);
 
   const acceptInvite = async () => {
     setState('accepting');
     try {
       const data = await acceptInviteAction(inviteToken);
       setJoinedWorkspace(
-        data.workspaceName || invite?.workspaceName || 'the workspace'
+        data.workspaceName ||
+          invite?.workspaceName ||
+          t('invite_fallback_workspace')
       );
       setState('done');
       setTimeout(() => navigate('/dashboard'), 2000);
     } catch (err) {
       if (err.status === 403) {
         setState('wrong-account');
-        setErrorMsg(
-          err.message || 'This invite was sent to a different account.'
-        );
+        setErrorMsg(err.message || t('invite_error_wrong_account'));
       } else {
         setState('error');
-        setErrorMsg(err.message || 'Failed to accept invite.');
+        setErrorMsg(err.message || t('invite_error_accept_failed'));
       }
     }
   };
@@ -69,12 +71,15 @@ const Invite = () => {
   const declineInvite = () => setState('declined');
 
   if (state === 'loading') {
-    return <MyLoader message="Loading invite…" />;
+    return <MyLoader message={t('invite_loading')} />;
   }
   if (state === 'accepting') {
     return (
       <MyLoader
-        message={`Joining ${invite?.workspaceName || 'the workspace'}…`}
+        message={t('invite_joining', {
+          workspaceName:
+            invite?.workspaceName || t('invite_fallback_workspace'),
+        })}
       />
     );
   }
@@ -91,9 +96,11 @@ const Invite = () => {
     return (
       <InviteStatusCard
         variant="neutral"
-        title="Invite declined"
-        subtitle={`You declined the invite to ${invite?.workspaceName}.`}
-        actionLabel="Back to sign in"
+        title={t('invite_declined_title')}
+        subtitle={t('invite_declined_subtitle', {
+          workspaceName: invite?.workspaceName,
+        })}
+        actionLabel={t('invite_back_to_sign_in')}
         actionTo="/login"
       />
     );
@@ -102,8 +109,8 @@ const Invite = () => {
     return (
       <InviteStatusCard
         variant="success"
-        title="You're in!"
-        subtitle={`You joined ${joinedWorkspace}. Taking you to the dashboard…`}
+        title={t('invite_done_title')}
+        subtitle={t('invite_done_subtitle', { workspaceName: joinedWorkspace })}
       />
     );
   }
@@ -111,9 +118,9 @@ const Invite = () => {
     return (
       <InviteStatusCard
         variant="warning"
-        title="Wrong account"
+        title={t('invite_wrong_account_title')}
         subtitle={errorMsg}
-        actionLabel="Switch account"
+        actionLabel={t('invite_switch_account')}
         actionTo="/login"
         actionPrimary
       />
@@ -122,9 +129,9 @@ const Invite = () => {
   return (
     <InviteStatusCard
       variant="error"
-      title="Invite invalid"
+      title={t('invite_invalid_title')}
       subtitle={errorMsg}
-      actionLabel="Back to sign in"
+      actionLabel={t('invite_back_to_sign_in')}
       actionTo="/login"
     />
   );

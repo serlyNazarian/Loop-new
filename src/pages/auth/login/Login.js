@@ -1,5 +1,6 @@
 import { theme } from 'antd';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import useAuthStore from '../../../stores/authStore';
 import LoginHeaderSection from './LoginHeaderSection';
 import SocialLoginButtons from './SocialLoginButtons';
@@ -19,6 +20,7 @@ import MyInputPasswordItem from '../../../components/myInput/MyInputPasswordItem
 const API_BASE = process.env.REACT_APP_API_BASE_URL || '';
 
 const Login = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [form] = MyForm.useForm();
@@ -40,7 +42,7 @@ const Login = () => {
         {
           name: 'password',
           errors: [
-            err.message || 'Login failed. Check your details and try again.',
+            err.message || t('login_failed_generic'),
           ],
         },
       ]);
@@ -71,12 +73,12 @@ const Login = () => {
           <MyFlexVertical gap={18}>
             <MyInputItem
               name="email"
-              label="Email"
+              label={t('login_email_label')}
               rules={[
                 {
                   required: true,
                   type: 'email',
-                  message: 'Enter a valid email address',
+                  message: t('login_email_invalid'),
                 },
               ]}
               placeholder="you@company.com"
@@ -84,10 +86,10 @@ const Login = () => {
             />
             <MyInputPasswordItem
               name="password"
-              label="Password"
+              label={t('login_password_label')}
               autoComplete="current-password"
-              placeholder="Enter your password"
-              rules={[{ required: true, message: 'Enter your password' }]}
+              placeholder={t('login_password_placeholder')}
+              rules={[{ required: true, message: t('login_password_required') }]}
             />
             <MyFlex
               gap={12}
@@ -99,7 +101,7 @@ const Login = () => {
                 <MyCheckbox
                   style={{ fontSize: token.fontSizeSM, whiteSpace: 'nowrap' }}
                 >
-                  Stay signed in for 90 days
+                  {t('login_stay_signed_in')}
                 </MyCheckbox>
               </MyFormItem>
               <MyLink
@@ -110,7 +112,7 @@ const Login = () => {
                   fontSize: token.fontSizeSM,
                 }}
               >
-                Forgot password?
+                {t('login_forgot_password')}
               </MyLink>
             </MyFlex>
             <MyButton
@@ -120,14 +122,14 @@ const Login = () => {
               htmlType="submit"
               loading={loading}
             >
-              Sign in
+              {t('login_submit')}
             </MyButton>
           </MyFlexVertical>
         </MyForm>
         <MyDivider
           style={{ fontSize: token.fontSizeXS, letterSpacing: '0.08em' }}
         >
-          OR SIGN IN WITH
+          {t('login_social_divider')}
         </MyDivider>
         <SocialLoginButtons
           onGoogle={startGoogle}

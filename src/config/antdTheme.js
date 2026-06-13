@@ -147,6 +147,12 @@ const LIGHT_SURFACES = {
 };
 
 const DARK_SURFACES = {
+  authPanelBg: '#0a0a0c',
+  authPanelOverlay: [
+    'radial-gradient(at 50% 0%, rgba(255,255,255,0.035) 0%, transparent 55%)',
+    'radial-gradient(at 85% 95%, rgba(255,255,255,0.02) 0%, transparent 50%)',
+  ].join(', '),
+  authTitleGradient: 'linear-gradient(135deg, #ffffff 0%, #c7d2fe 50%, #60a5fa 100%)',
   sidebarGlass: 'rgba(10,10,12,0.40)',
   headerGlass: 'rgba(10,10,12,0.45)',
   dashboardBgBase: '#0a0a0c',

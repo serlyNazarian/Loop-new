@@ -1,10 +1,10 @@
 import { Select } from 'antd';
-import ChevronDownIcon from '../icons/ChevronDownIcon';
+import SVGChevronDown from '../icons/SVGChevronDown';
 
 const MySelect = ({ suffixIcon, ...otherProps }) => {
   return (
     <Select
-      suffixIcon={suffixIcon ?? <ChevronDownIcon size={12} />}
+      suffixIcon={suffixIcon ?? <SVGChevronDown size={12} />}
       {...otherProps}
     />
   );

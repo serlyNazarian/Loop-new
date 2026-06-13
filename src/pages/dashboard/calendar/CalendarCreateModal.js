@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import UtilDate from '../../../utils/UtilDate';
 import { DURATION_VALUES } from './calendarConstants';
@@ -9,16 +9,26 @@ import MyInput from '../../../components/myInput/MyInput';
 import MyAlert from '../../../components/myAlert/MyAlert';
 import MySelect from '../../../components/mySelect/MySelect';
 import MyFormItem from '../../../components/myForm/MyFormItem';
+import useWindowSize from '../../../hooks/useWindowSize';
 import { createAppointment } from '../../../actions/calendarActions';
 import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
-import MyDatePicker from '../../../components/myDatePicker/MyDatePicker';
+import MyDateTimeField from '../../../components/myDateTimeField/MyDateTimeField';
 
 const CalendarCreateModal = ({ open, defaultDate, onClose, onCreated }) => {
   const { t } = useTranslation();
   const [form] = MyForm.useForm();
+  const { isMobile } = useWindowSize();
 
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    form.resetFields();
+    form.setFieldsValue({
+      startsAt: UtilDate.toDayjs(defaultDate).hour(10).minute(0).second(0),
+    });
+  }, [open, defaultDate, form]);
 
   const submit = async (values) => {
     setSaving(true);
@@ -93,14 +103,14 @@ const CalendarCreateModal = ({ open, defaultDate, onClose, onCreated }) => {
               <MyInput placeholder="name@email.com" />
             </MyFormItem>
           </MyFlex>
-          <MyFlex gap={12}>
+          <MyFlex gap={12} vertical={isMobile}>
             <MyFormItem
               name="startsAt"
               className="flex_1"
               label={t('cal_date_time')}
               rules={[{ required: true, message: t('cal_datetime_required') }]}
             >
-              <MyDatePicker showTime format="MMM D, YYYY · h:mm A" />
+              <MyDateTimeField />
             </MyFormItem>
             <MyFormItem
               name="durationMin"
