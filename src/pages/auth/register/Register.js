@@ -88,7 +88,6 @@ const Register = () => {
           form={form}
           layout="vertical"
           onFinish={onFinish}
-          validateTrigger={[]}
           requiredMark="optional"
         >
           {step === 1 && (

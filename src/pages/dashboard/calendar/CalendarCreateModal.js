@@ -1,23 +1,24 @@
-import dayjs from 'dayjs';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import UtilDate from '../../../utils/UtilDate';
+import { DURATION_VALUES } from './calendarConstants';
 import MyForm from '../../../components/myForm/MyForm';
 import MyFlex from '../../../components/myFlex/MyFlex';
-import { DURATION_OPTIONS } from './calendarConstants';
 import MyModal from '../../../components/myModal/MyModal';
 import MyInput from '../../../components/myInput/MyInput';
 import MyAlert from '../../../components/myAlert/MyAlert';
 import MySelect from '../../../components/mySelect/MySelect';
-import MyButton from '../../../components/myButton/MyButton';
 import MyFormItem from '../../../components/myForm/MyFormItem';
 import { createAppointment } from '../../../actions/calendarActions';
 import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
 import MyDatePicker from '../../../components/myDatePicker/MyDatePicker';
 
 const CalendarCreateModal = ({ open, defaultDate, onClose, onCreated }) => {
+  const { t } = useTranslation();
   const [form] = MyForm.useForm();
 
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [saving, setSaving] = useState(false);
 
   const submit = async (values) => {
     setSaving(true);
@@ -35,29 +36,35 @@ const CalendarCreateModal = ({ open, defaultDate, onClose, onCreated }) => {
       });
       onCreated();
     } catch (e) {
-      setError(e.message || 'Could not create appointment.');
+      setError(e.message || t('cal_create_error'));
     } finally {
       setSaving(false);
     }
   };
 
-  const initialStart = (defaultDate ? dayjs(defaultDate) : dayjs())
+  const initialStart = UtilDate.toDayjs(defaultDate)
     .hour(10)
     .minute(0)
     .second(0);
+
+  const durationOptions = DURATION_VALUES.map((v) => ({
+    value: v,
+    label: t('cal_minutes', { count: v }),
+  }));
 
   return (
     <MyModal
       open={open}
       width={460}
-      footer={null}
       destroyOnHidden
       onCancel={onClose}
-      title="New appointment"
+      confirmLoading={saving}
+      onOk={() => form?.submit()}
+      title={t('cal_new_appointment')}
+      okText={t('cal_create_appointment')}
     >
       <MyForm
         form={form}
-        layout="vertical"
         onFinish={submit}
         initialValues={{ startsAt: initialStart, durationMin: 30 }}
       >
@@ -65,51 +72,50 @@ const CalendarCreateModal = ({ open, defaultDate, onClose, onCreated }) => {
           {error && <MyAlert type="error" message={error} />}
           <MyFormItem
             name="contactName"
-            label="Customer name"
-            rules={[{ required: true, message: 'Customer name is required' }]}
+            label={t('cal_customer_name')}
+            rules={[{ required: true, message: t('cal_name_required') }]}
           >
-            <MyInput placeholder="Jane Doe" autoFocus />
+            <MyInput placeholder={t('cal_ph_name')} autoFocus />
           </MyFormItem>
           <MyFlex gap={12}>
-            <MyFormItem name="contactPhone" label="Phone" className="flex_1">
+            <MyFormItem
+              className="flex_1"
+              name="contactPhone"
+              label={t('cal_phone')}
+            >
               <MyInput placeholder="+1 555 000 0000" />
             </MyFormItem>
-            <MyFormItem name="contactEmail" label="Email" className="flex_1">
+            <MyFormItem
+              className="flex_1"
+              name="contactEmail"
+              label={t('cal_email')}
+            >
               <MyInput placeholder="name@email.com" />
             </MyFormItem>
           </MyFlex>
           <MyFlex gap={12}>
             <MyFormItem
               name="startsAt"
-              label="Date & time"
               className="flex_1"
-              rules={[{ required: true, message: 'Pick a date & time' }]}
+              label={t('cal_date_time')}
+              rules={[{ required: true, message: t('cal_datetime_required') }]}
             >
-              <MyDatePicker
-                showTime
-                format="MMM D, YYYY · h:mm A"
-                className="w_100"
-              />
+              <MyDatePicker showTime format="MMM D, YYYY · h:mm A" />
             </MyFormItem>
-            <MyFormItem name="durationMin" label="Duration" className="flex_1">
-              <MySelect options={DURATION_OPTIONS} />
+            <MyFormItem
+              name="durationMin"
+              label={t('cal_duration')}
+              className="flex_1"
+            >
+              <MySelect options={durationOptions} />
             </MyFormItem>
           </MyFlex>
-          <MyFormItem name="serviceName" label="Service">
-            <MyInput placeholder="e.g. Haircut" />
+          <MyFormItem name="serviceName" label={t('cal_service')}>
+            <MyInput placeholder={t('cal_ph_service')} />
           </MyFormItem>
-          <MyFormItem name="serviceNotes" label="Notes">
-            <MyInput.TextArea
-              rows={3}
-              placeholder="Anything the customer should know"
-            />
+          <MyFormItem name="serviceNotes" label={t('cal_notes')}>
+            <MyInput.TextArea rows={3} placeholder={t('cal_ph_notes')} />
           </MyFormItem>
-          <MyFlex gap={8} justify="flex-end">
-            <MyButton onClick={onClose}>Cancel</MyButton>
-            <MyButton type="primary" htmlType="submit" loading={saving}>
-              Create appointment
-            </MyButton>
-          </MyFlex>
         </MyFlexVertical>
       </MyForm>
     </MyModal>

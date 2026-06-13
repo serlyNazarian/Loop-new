@@ -66,7 +66,6 @@ const Login = () => {
           layout="vertical"
           onFinish={onFinish}
           requiredMark={false}
-          validateTrigger={[]}
           initialValues={{ rememberMe: false }}
         >
           <MyFlexVertical gap={18}>

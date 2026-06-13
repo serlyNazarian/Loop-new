@@ -1,6 +1,7 @@
 import App from './App';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
+import './config/dayjs';
 import './styles/index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

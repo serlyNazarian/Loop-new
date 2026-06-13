@@ -42,7 +42,6 @@ const ForgotPasswordPasswordStep = ({
           layout="vertical"
           onFinish={onFinish}
           requiredMark={false}
-          validateTrigger={[]}
         >
           <MyFlexVertical gap={18}>
             <MyInputPasswordItem

@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import Header from './Header';
+import Header from './header/Header';
 import Sidebar from './sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
 import useThemeStore from '../../stores/themeStore';
@@ -46,7 +46,11 @@ export default function InsideLayout() {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <DashboardBackground />
-      <Sidebar isMobile={isMobile} collapsed={collapsed} />
+      <Sidebar
+        isMobile={isMobile}
+        collapsed={collapsed}
+        onClose={() => setCollapsed(true)}
+      />
       <Layout style={{ background: 'transparent' }}>
         <Header
           dark={dark}

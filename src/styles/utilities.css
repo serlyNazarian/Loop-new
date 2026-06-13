@@ -61,6 +61,7 @@
 .text_right   { text-align: right; }
 .nowrap       { white-space: nowrap; }
 .capitalize   { text-transform: capitalize; }
+.form_required_mark { color: var(--ant-color-error); margin-inline-start: 2px; }
 .text_underline { text-decoration: underline; }
 .text_bold_600  { font-weight: 600; }
 .bold           { font-weight: 500; }

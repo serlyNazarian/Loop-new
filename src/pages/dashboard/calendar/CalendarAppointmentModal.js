@@ -1,84 +1,115 @@
 import { statusOf } from './calendarConstants';
-import MyText from '../../../components/myText/MyText';
+import { useTranslation } from 'react-i18next';
+import UtilDate from '../../../utils/UtilDate';
+import CalendarDetailRow from './CalendarDetailRow';
+import MyTag from '../../../components/myTag/MyTag';
 import MyFlex from '../../../components/myFlex/MyFlex';
 import MyModal from '../../../components/myModal/MyModal';
 import MyButton from '../../../components/myButton/MyButton';
-import { formatApptDate, formatApptTime } from './calendarUtils';
 import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
+import MyPopconfirm from '../../../components/myPopconfirm/MyPopconfirm';
 import MyTextSecondary from '../../../components/myText/MyTextSecondary';
 import './calendar.css';
 
-const DetailRow = ({ label, children }) => (
-  <MyFlexVertical gap={2}>
-    <MyTextSecondary bold fontSize={10} className="appt_detail_label">
-      {label}
-    </MyTextSecondary>
-    <MyText fontSize={13}>{children}</MyText>
-  </MyFlexVertical>
-);
-
 const CalendarAppointmentModal = ({
-  appointment,
   onClose,
+  onDelete,
+  onCancel,
   onApprove,
   onDecline,
-  onCancel,
-  onDelete,
+  appointment,
 }) => {
+  const { t } = useTranslation();
+
   if (!appointment) return null;
 
   const a = appointment;
-  const s = statusOf(a.status);
   const pending = a.status === 'pending';
-  const dateLabel = formatApptDate(a.startsAt, a.timezone, {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-  });
+  const dateLabel = UtilDate.formatDate(a.startsAt, 'ddd, MMM D');
 
   const footer = pending ? (
     <MyFlex gap={8} justify="flex-end">
-      <MyButton danger onClick={onDecline}>
-        Decline
-      </MyButton>
+      <MyPopconfirm
+        placement="topRight"
+        onConfirm={onDecline}
+        title={t('cal_decline_confirm')}
+        cancelText={t('cal_keep')}
+        okText={t('cal_decline')}
+        okButtonProps={{ danger: true }}
+      >
+        <MyButton danger>{t('cal_decline')}</MyButton>
+      </MyPopconfirm>
       <MyButton type="primary" onClick={onApprove}>
-        Approve
+        {t('cal_approve')}
       </MyButton>
     </MyFlex>
   ) : (
     <MyFlex gap={8} justify="flex-end">
       {a.status !== 'cancelled' && (
-        <MyButton onClick={onCancel}>Cancel appointment</MyButton>
+        <MyPopconfirm
+          placement="topRight"
+          onConfirm={onCancel}
+          title={t('cal_cancel_confirm')}
+          cancelText={t('cal_keep')}
+          okText={t('cal_cancel_appointment')}
+          okButtonProps={{ danger: true }}
+        >
+          <MyButton>{t('cal_cancel')}</MyButton>
+        </MyPopconfirm>
       )}
-      <MyButton danger onClick={onDelete}>
-        Delete
-      </MyButton>
+      <MyPopconfirm
+        placement="topRight"
+        onConfirm={onDelete}
+        title={t('cal_delete_confirm')}
+        cancelText={t('cal_keep')}
+        okText={t('cal_delete')}
+        okButtonProps={{ danger: true }}
+      >
+        <MyButton danger>{t('cal_delete')}</MyButton>
+      </MyPopconfirm>
     </MyFlex>
   );
 
   return (
-    <MyModal open width={440} footer={footer} onCancel={onClose} title={a.contactName}>
+    <MyModal
+      open
+      width={440}
+      footer={footer}
+      onCancel={onClose}
+      title={a.contactName}
+    >
       <MyFlexVertical gap={14}>
         <MyFlex align="center" gap={8} wrap="wrap">
-          <MyText bold fontSize={10} className={`appt_tag appt_chip_${a.status}`}>
-            {s.label}
-          </MyText>
+          <MyTag color={statusOf(a.status).color}>
+            {t(statusOf(a.status).labelKey)}
+          </MyTag>
           <MyTextSecondary fontSize={11}>
-            booked {a.createdBy === 'ai' ? 'by AI' : 'manually'}
+            {t(a.createdBy === 'ai' ? 'cal_booked_ai' : 'cal_booked_manual')}
           </MyTextSecondary>
         </MyFlex>
         <MyTextSecondary fontSize={13}>
-          {dateLabel} · {formatApptTime(a.startsAt, a.timezone)} · {a.durationMin} min
+          {dateLabel} · {UtilDate.formatTime(a.startsAt)} ·{' '}
+          {t('cal_minutes', { count: a.durationMin })}
         </MyTextSecondary>
-        {a.serviceName && <DetailRow label="Service">{a.serviceName}</DetailRow>}
-        {(a.contactPhone || a.contactEmail) && (
-          <DetailRow label="Contact">
-            {[a.contactPhone, a.contactEmail].filter(Boolean).join(' · ')}
-          </DetailRow>
+        {a.serviceName && (
+          <CalendarDetailRow label={t('cal_service')}>
+            {a.serviceName}
+          </CalendarDetailRow>
         )}
-        {a.serviceNotes && <DetailRow label="Notes">{a.serviceNotes}</DetailRow>}
+        {(a.contactPhone || a.contactEmail) && (
+          <CalendarDetailRow label={t('cal_contact')}>
+            {[a.contactPhone, a.contactEmail].filter(Boolean).join(' · ')}
+          </CalendarDetailRow>
+        )}
+        {a.serviceNotes && (
+          <CalendarDetailRow label={t('cal_notes')}>
+            {a.serviceNotes}
+          </CalendarDetailRow>
+        )}
         {a.cancelReason && (
-          <DetailRow label="Cancel reason">{a.cancelReason}</DetailRow>
+          <CalendarDetailRow label={t('cal_cancel_reason')}>
+            {a.cancelReason}
+          </CalendarDetailRow>
         )}
       </MyFlexVertical>
     </MyModal>

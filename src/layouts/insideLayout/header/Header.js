@@ -8,12 +8,12 @@ import {
   GlobalOutlined,
 } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
-import { TITLES } from './insideLayoutConstants';
-import MyFlex from '../../components/myFlex/MyFlex';
-import MyText from '../../components/myText/MyText';
-import useWindowSize from '../../hooks/useWindowSize';
-import MyButton from '../../components/myButton/MyButton';
+import { TITLES } from '../insideLayoutConstants';
+import MyFlex from '../../../components/myFlex/MyFlex';
+import MyText from '../../../components/myText/MyText';
+import useWindowSize from '../../../hooks/useWindowSize';
 import { useLocation, useNavigate } from 'react-router-dom';
+import MyButton from '../../../components/myButton/MyButton';
 import './header.css';
 
 const { Header: AntHeader } = Layout;

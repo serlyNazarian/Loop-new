@@ -1,7 +1,7 @@
 import { DatePicker } from 'antd';
 
-const MyDatePicker = ({ size = 'large', ...otherProps }) => {
-  return <DatePicker size={size} {...otherProps} />;
+const MyDatePicker = ({ ...otherProps }) => {
+  return <DatePicker {...otherProps} />;
 };
 
 export default MyDatePicker;

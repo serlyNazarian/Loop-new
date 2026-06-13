@@ -28,6 +28,21 @@ aside.sidebar_sider::after {
   padding-top: 14px;
 }
 
+.sidebar_drawer .ant-drawer-body {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar_drawer .sidebar_inner {
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebar_drawer .ant-drawer-section {
+  background: var(--ant-color-bg-container);
+}
+
 .nav_item_featured {
   background: var(--ant-nav-featured-gradient);
 }

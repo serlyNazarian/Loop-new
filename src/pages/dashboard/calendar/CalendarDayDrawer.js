@@ -1,6 +1,8 @@
 import { theme } from 'antd';
 import { statusOf } from './calendarConstants';
-import { formatApptTime } from './calendarUtils';
+import { useTranslation } from 'react-i18next';
+import UtilDate from '../../../utils/UtilDate';
+import MyTag from '../../../components/myTag/MyTag';
 import MyText from '../../../components/myText/MyText';
 import MyFlex from '../../../components/myFlex/MyFlex';
 import PlusIcon from '../../../components/icons/PlusIcon';
@@ -22,25 +24,27 @@ const labelFor = (year, monthIdx, date) =>
 const CalendarDayDrawer = ({
   open,
   year,
-  monthIdx,
   date,
   list,
   onClose,
-  onSelectAppointment,
+  monthIdx,
   onCreate,
+  afterOpenChange,
+  onSelectAppointment,
 }) => {
+  const { t } = useTranslation();
   const { token } = theme.useToken();
   const items = list || [];
 
   const title = (
     <MyFlexVertical gap={0}>
       <MyText fontSize={16} bold>
-        {date ? labelFor(year, monthIdx, date) : 'Day'}
+        {date ? labelFor(year, monthIdx, date) : t('cal_day')}
       </MyText>
       <MyTextSecondary fontSize={12}>
         {items.length === 0
-          ? 'No appointments'
-          : `${items.length} appointment${items.length === 1 ? '' : 's'}`}
+          ? t('cal_no_appointments')
+          : t('cal_day_count', { count: items.length })}
       </MyTextSecondary>
     </MyFlexVertical>
   );
@@ -52,11 +56,14 @@ const CalendarDayDrawer = ({
       closable={false}
       placement="right"
       onClose={onClose}
+      afterOpenChange={afterOpenChange}
+      styles={{ wrapper: { width: '100%' } }}
       extra={
         <MyButton
           type="text"
-          aria-label="Close"
+          size="small"
           onClick={onClose}
+          aria-label="Close"
           icon={<CloseOutlined />}
         />
       }
@@ -72,7 +79,7 @@ const CalendarDayDrawer = ({
             boxShadow: token.brandButtonShadow,
           }}
         >
-          New appointment on this day
+          {t('cal_new_appointment_day')}
         </MyButton>
       }
     >
@@ -83,14 +90,17 @@ const CalendarDayDrawer = ({
           </div>
           <MyFlexVertical align="center" gap={4}>
             <MyText fontSize={16} bold>
-              Nothing scheduled
+              {t('cal_nothing_scheduled')}
             </MyText>
-            <MyTextSecondary fontSize={13} className="text_center cal_empty_desc">
-              Add your first appointment, or let your AI agent book one for you.
+            <MyTextSecondary
+              fontSize={13}
+              className="text_center cal_empty_desc"
+            >
+              {t('cal_empty_desc')}
             </MyTextSecondary>
           </MyFlexVertical>
           <MyButton type="primary" icon={<PlusIcon />} onClick={onCreate}>
-            New appointment
+            {t('cal_new_appointment')}
           </MyButton>
         </MyFlexVertical>
       ) : (
@@ -109,15 +119,11 @@ const CalendarDayDrawer = ({
                     fontSize={14}
                     className={cancelled ? 'appt_cancelled' : undefined}
                   >
-                    {formatApptTime(a.startsAt, a.timezone)}
+                    {UtilDate.formatTime(a.startsAt)}
                   </MyText>
-                  <MyText
-                    bold
-                    fontSize={10}
-                    className={`appt_tag appt_chip_${a.status}`}
-                  >
-                    {statusOf(a.status).label}
-                  </MyText>
+                  <MyTag color={statusOf(a.status).color}>
+                    {t(statusOf(a.status).labelKey)}
+                  </MyTag>
                 </MyFlex>
                 <MyText
                   fontSize={13}
@@ -127,7 +133,8 @@ const CalendarDayDrawer = ({
                 </MyText>
                 {a.serviceName && (
                   <MyTextSecondary fontSize={12}>
-                    {a.serviceName} · {a.durationMin} min
+                    {a.serviceName} ·{' '}
+                    {t('cal_minutes', { count: a.durationMin })}
                   </MyTextSecondary>
                 )}
               </div>

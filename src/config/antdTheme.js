@@ -28,6 +28,7 @@ const antdTheme = {
     borderRadiusXL: 16,
     borderRadiusXXL: 20,
     borderRadiusPill: 999,
+    controlHeight: 40,
     controlHeightLG: 46,
 
     colorBrandBlue: '#0066ff',
@@ -133,6 +134,9 @@ const antdTheme = {
     },
     Form: {
       itemMarginBottom: 0,
+    },
+    Layout: {
+      headerHeight: 64,
     },
   },
 };

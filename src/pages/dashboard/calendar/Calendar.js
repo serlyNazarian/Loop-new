@@ -1,16 +1,18 @@
-import dayjs from 'dayjs';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import PlusIcon from '../../../components/icons/PlusIcon';
+import UtilCalendar from './UtilCalendar';
 import CalendarHeader from './CalendarHeader';
+import { statusOf } from './calendarConstants';
+import { useTranslation } from 'react-i18next';
+import UtilDate from '../../../utils/UtilDate';
 import CalendarDayDrawer from './CalendarDayDrawer';
-import MyText from '../../../components/myText/MyText';
+import MyTag from '../../../components/myTag/MyTag';
 import CalendarCreateModal from './CalendarCreateModal';
 import MyAlert from '../../../components/myAlert/MyAlert';
+import PlusIcon from '../../../components/icons/PlusIcon';
 import MyButton from '../../../components/myButton/MyButton';
-import MyCalendar from '../../../components/myCalendar/MyCalendar';
 import CalendarAppointmentModal from './CalendarAppointmentModal';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import MyCalendar from '../../../components/myCalendar/MyCalendar';
 import MyPageHeader from '../../../components/myPageHeader/MyPageHeader';
-import { bucketByDay, dayKey, formatApptTime } from './calendarUtils';
 import MyTextSecondary from '../../../components/myText/MyTextSecondary';
 import {
   getAppointments,
@@ -22,14 +24,17 @@ import {
 import './calendar.css';
 
 const Calendar = () => {
-  const [value, setValue] = useState(() => dayjs());
-  const [appointments, setAppointments] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
+
   const [error, setError] = useState(null);
-  const [createOpen, setCreateOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [createDate, setCreateDate] = useState(null);
+  const [createOpen, setCreateOpen] = useState(false);
+  const [appointments, setAppointments] = useState([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedAppt, setSelectedAppt] = useState(null);
+  const [value, setValue] = useState(() => UtilDate.now());
 
   const year = value.year();
   const monthIdx = value.month();
@@ -44,19 +49,22 @@ const Calendar = () => {
         const data = await getAppointments({ from, to });
         setAppointments(data?.appointments || []);
       } catch (e) {
-        setError(e.message || 'Could not load your calendar.');
+        setError(e.message || t('cal_load_error'));
       } finally {
         if (showSpinner) setLoading(false);
       }
     },
-    [year, monthIdx]
+    [year, monthIdx, t]
   );
 
   useEffect(() => {
     load(true);
   }, [load]);
 
-  const apptsByDay = useMemo(() => bucketByDay(appointments), [appointments]);
+  const apptsByDay = useMemo(
+    () => UtilCalendar.bucketByDay(appointments),
+    [appointments]
+  );
 
   const monthCount = useMemo(
     () =>
@@ -70,25 +78,20 @@ const Calendar = () => {
   const cellRender = (current, info) => {
     if (info.type !== 'date') return info.originNode;
     const list =
-      apptsByDay.get(dayKey(current.year(), current.month(), current.date())) ||
-      [];
+      apptsByDay.get(
+        UtilCalendar.dayKey(current.year(), current.month(), current.date())
+      ) || [];
     if (!list.length) return null;
     return (
       <div className="cal_events">
         {list.slice(0, 2).map((a) => (
-          <MyText
-            key={a.id}
-            fontSize={10}
-            className={`appt_chip appt_chip_${a.status}${
-              a.status === 'cancelled' ? ' appt_cancelled' : ''
-            }`}
-          >
-            {formatApptTime(a.startsAt, a.timezone)} · {a.contactName}
-          </MyText>
+          <MyTag key={a.id} color={statusOf(a.status).color}>
+            {UtilDate.formatTime(a.startsAt)} · {a.contactName}
+          </MyTag>
         ))}
         {list.length > 2 && (
           <MyTextSecondary fontSize={10}>
-            +{list.length - 2} more
+            {t('cal_more', { count: list.length - 2 })}
           </MyTextSecondary>
         )}
       </div>
@@ -97,7 +100,10 @@ const Calendar = () => {
 
   const onSelect = (date, info) => {
     setValue(date);
-    if (info?.source === 'date') setSelectedDay(date);
+    if (info?.source === 'date') {
+      setSelectedDay(date);
+      setDrawerOpen(true);
+    }
   };
 
   const openCreate = (d) => {
@@ -107,7 +113,11 @@ const Calendar = () => {
 
   const selectedDayList = selectedDay
     ? apptsByDay.get(
-        dayKey(selectedDay.year(), selectedDay.month(), selectedDay.date())
+        UtilCalendar.dayKey(
+          selectedDay.year(),
+          selectedDay.month(),
+          selectedDay.date()
+        )
       ) || []
     : [];
 
@@ -117,15 +127,15 @@ const Calendar = () => {
   };
 
   const subtitle = loading
-    ? 'Loading…'
+    ? t('cal_loading')
     : monthCount === 0
-      ? 'No appointments this month yet.'
-      : `${monthCount} appointment${monthCount === 1 ? '' : 's'} this month.`;
+      ? t('cal_subtitle_empty')
+      : t('cal_subtitle_count', { count: monthCount });
 
   return (
     <>
       <MyPageHeader
-        title="Calendar"
+        title={t('nav_calendar')}
         subtitle={subtitle}
         actions={
           <MyButton
@@ -133,7 +143,7 @@ const Calendar = () => {
             icon={<PlusIcon />}
             onClick={() => openCreate(null)}
           >
-            New appointment
+            {t('cal_new_appointment')}
           </MyButton>
         }
       />
@@ -159,16 +169,19 @@ const Calendar = () => {
         }}
       />
       <CalendarDayDrawer
-        open={!!selectedDay}
+        open={drawerOpen}
         year={selectedDay?.year()}
         monthIdx={selectedDay?.month()}
         date={selectedDay?.date()}
         list={selectedDayList}
-        onClose={() => setSelectedDay(null)}
+        onClose={() => setDrawerOpen(false)}
+        afterOpenChange={(o) => {
+          if (!o) setSelectedDay(null);
+        }}
         onSelectAppointment={(a) => setSelectedAppt(a)}
         onCreate={() => {
           openCreate(selectedDay);
-          setSelectedDay(null);
+          setDrawerOpen(false);
         }}
       />
       <CalendarAppointmentModal
@@ -185,7 +198,7 @@ const Calendar = () => {
         onCancel={async () => {
           await updateAppointment(selectedAppt.id, {
             status: 'cancelled',
-            cancelReason: 'Cancelled by you',
+            cancelReason: t('cal_cancelled_by_you'),
           });
           afterChange();
         }}

@@ -45,7 +45,7 @@ const SidebarNavItem = ({ item, active, collapsed, onClick }) => {
         boxShadow,
         background,
         borderRadius: token.borderRadiusL,
-        padding: collapsed ? 9 : '9px 12px',
+        padding: collapsed ? 9 : '6px 12px',
       }}
     >
       <span

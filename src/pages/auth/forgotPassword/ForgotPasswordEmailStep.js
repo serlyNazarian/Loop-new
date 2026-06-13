@@ -32,7 +32,6 @@ const ForgotPasswordEmailStep = ({ form, loading, error, onFinish }) => {
           layout="vertical"
           onFinish={onFinish}
           requiredMark={false}
-          validateTrigger={[]}
         >
           <MyFlexVertical gap={18}>
             <MyInputItem

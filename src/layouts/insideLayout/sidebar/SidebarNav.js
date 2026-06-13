@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useWorkspaceStore from '../../../stores/workspaceStore';
 import MyFlexVertical from '../../../components/myFlex/MyFlexVertical';
 
-const SidebarNav = ({ collapsed }) => {
+const SidebarNav = ({ collapsed, onNavigate }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -33,7 +33,10 @@ const SidebarNav = ({ collapsed }) => {
           key={item.key}
           collapsed={collapsed}
           active={selectedKey === item.key}
-          onClick={() => navigate(item.key)}
+          onClick={() => {
+            navigate(item.key);
+            onNavigate?.();
+          }}
         />
       ))}
     </MyFlexVertical>
